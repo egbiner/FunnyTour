@@ -1,19 +1,23 @@
 package cn.imhtb.controller;
 
 import cn.imhtb.common.Const;
+import cn.imhtb.common.ServerResponse;
 import cn.imhtb.pojo.Essay;
+import cn.imhtb.pojo.User;
 import cn.imhtb.service.IEssayService;
+import cn.imhtb.service.IUserService;
 import cn.imhtb.utils.BaiduMapPointUtils;
 import cn.imhtb.vo.BaiduLocation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.apache.commons.lang3.ArrayUtils.toArray;
 
 
 @Controller
@@ -21,6 +25,8 @@ public class IndexController {
 
     @Autowired
     IEssayService iEssayService;
+    @Autowired
+    IUserService iUserService;
 
 //    @RequestMapping("/")
 //    public String index(Model model){
@@ -44,8 +50,69 @@ public class IndexController {
 //    }
 
     @RequestMapping("/")
-    public String index(){
-        return "HotPoint";
+    public String index(HttpSession session)
+    {
+        ServerResponse<User> serverResponse = iUserService.login("admin", "admin");
+        session.setAttribute(Const.CURRENT_USER,serverResponse.getData());
+        return "index";
+    }
+
+    @RequestMapping("/point")
+    public String to_point(){
+        return "point";
+    }
+
+    @RequestMapping("/more")
+    public String to_more(){
+        return "jie/index";
+    }
+
+    @RequestMapping("/login")
+    public String to_login(){
+        return "user/login";
+    }
+
+    @RequestMapping("/register")
+    public String to_register(){
+        return "user/register";
+    }
+
+    @RequestMapping("/user/set")
+    public String to_set(Model model,HttpSession session)
+    {
+        User user  = (User) session.getAttribute(Const.CURRENT_USER);
+        model.addAttribute("user",user);
+        return "user/set";
+    }
+
+    @RequestMapping("/user/message")
+    public String to_message(){
+        return "user/message";
+    }
+
+    @RequestMapping("/user/index")
+    public String to_user_index(HttpSession session,Model model){
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        List<Essay> essays = iEssayService.selectByUserIdWithSelective(user.getId(),null);
+        int essaysCount = iEssayService.selectCountByUserId(user.getId());
+        model.addAttribute("essaysCount",essaysCount);
+        model.addAttribute("essays",essays);
+        return "user/index";
+    }
+
+    @RequestMapping("/user/home")
+    public String to_home(HttpSession session,Model model){
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        List<Essay> essays = iEssayService.selectByUserIdWithSelective(user.getId(),7);
+        model.addAttribute("user",user);
+        model.addAttribute("essays",essays);
+        return "user/home";
+    }
+
+
+    @RequestMapping("/essay")
+    public String to_essay_add(){
+        return "jie/add";
     }
 
     @RequestMapping("/points")
@@ -55,7 +122,7 @@ public class IndexController {
         List<Essay> essays = iEssayService.selectAll();
         for (Essay e:essays) {
             BaiduLocation baiduLocation = BaiduMapPointUtils.getBaiduLocation(Const.BAIDU_GET_POINT_URL_PREFIX+e.getPosition()+Const.BAIDU_GET_POINT_URL_SUFFIX+Const.BAIDU_AK);
-            baiduLocation.setCount(100);
+            baiduLocation.setCount((int)(Math.random()*100));
             baiduLocations.add(baiduLocation);
         }
         return baiduLocations.toArray();

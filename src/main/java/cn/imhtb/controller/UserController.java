@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpSession;
 
 @RestController
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     IUserService iUserService;
 
     @RequestMapping("/login")
     public ServerResponse<User> login(String username, String password){
-
         return iUserService.login(username, password);
     }
     @RequestMapping(value = "/logout",method = RequestMethod.GET)
@@ -32,7 +32,7 @@ public class UserController {
         return iUserService.register(user);
     }
 
-    @RequestMapping(value = "/get_info",method = RequestMethod.POST)
+    @RequestMapping(value = "/get_info",method = RequestMethod.GET)
     public ServerResponse<User> getUserInfo(HttpSession session){
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user==null){
@@ -58,7 +58,8 @@ public class UserController {
         if (user==null){
             return ServerResponse.createByErrorMessage("用户未登录");
         }else{
-            return ServerResponse.createBySuccess(user);
+//            return ServerResponse.createBySuccess(user);
+            return ServerResponse.createBySuccess();
         }
     }
 }

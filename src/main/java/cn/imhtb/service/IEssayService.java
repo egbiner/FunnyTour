@@ -17,4 +17,8 @@ public interface IEssayService {
     ServerResponse<String> delete(Integer id);
 
     List<Essay> selectAll();
+
+    List<Essay> selectByUserIdWithSelective(Integer userId,Integer count);
+
+    int selectCountByUserId(Integer userId);
 }

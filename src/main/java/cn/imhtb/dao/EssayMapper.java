@@ -2,6 +2,7 @@ package cn.imhtb.dao;
 
 import cn.imhtb.pojo.Essay;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,4 +21,8 @@ public interface EssayMapper {
     int updateByPrimaryKey(Essay record);
 
     List<Essay> selectAll();
+
+    List<Essay> selectByUserIdWithSelective(@Param("userId") Integer userId,@Param("count") Integer count);
+
+    int selectCountByUserId(Integer userId);
 }

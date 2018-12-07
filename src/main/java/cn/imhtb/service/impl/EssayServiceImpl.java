@@ -59,5 +59,15 @@ public class EssayServiceImpl implements IEssayService {
         return essayMapper.selectAll();
     }
 
+    @Override
+    public List<Essay> selectByUserIdWithSelective(Integer userId,Integer count) {
+        return essayMapper.selectByUserIdWithSelective(userId,count);
+    }
+
+    @Override
+    public int selectCountByUserId(Integer userId) {
+        return essayMapper.selectCountByUserId(userId);
+    }
+
 
 }

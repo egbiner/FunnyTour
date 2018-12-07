@@ -260,14 +260,36 @@ layui.define(['laypage', 'fly', 'element', 'flow'], function(exports){
 
   //提交成功后刷新
   fly.form['set-mine'] = function(data, required){
-    layer.msg('修改成功', {
-      icon: 1
-      ,time: 1000
-      ,shade: 0.1
-    }, function(){
-      location.reload();
-    });
-  }
+    console.log('user.js执行');
+      // $.ajax({
+      //     type: "POST",
+      //     url: '/user/set',
+      //     dataType: "json",
+      //     data:data,
+      //     success: function (res) {
+      //       if(res.status){
+      //           layer.msg('修改成功', {
+      //               icon: 1
+      //               ,time: 2000
+      //               ,shade: 0.1
+      //           }, function(){
+      //               location.reload();
+      //           });
+      //       }
+      //
+      //     },
+      //     error: function (res) {
+      //         alert("数据获取失败")
+      //     }
+      // });
+      layer.msg('修改成功', {
+          icon: 1
+          ,time: 2000
+          ,shade: 0.1
+      }, function(){
+          location.reload();
+      });
+  };
 
   //帐号绑定
   $('.acc-unbind').on('click', function(){

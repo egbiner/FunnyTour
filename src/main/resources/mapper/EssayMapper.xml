@@ -32,7 +32,19 @@
     <include refid="Base_Column_List" />
     from tmt_essay
   </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByUserIdWithSelective" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from tmt_essay
+      where user_id = #{userId}
+      <if test="count != null">
+        LIMIT #{count}
+      </if>
+    </select>
+  <select id="selectCountByUserId" resultType="java.lang.Integer">
+      select count(*) from tmt_essay where user_id = #{userId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tmt_essay
     where id = #{id,jdbcType=INTEGER}
   </delete>

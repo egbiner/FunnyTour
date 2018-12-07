@@ -19,6 +19,8 @@ public class UserServiceImpl implements IUserService {
     @Override
     public ServerResponse<User> login(String username, String password) {
         User user = userMapper.selectLogin(username,password);
+        System.out.println("service:"+user);
+
         if (user==null){
             return ServerResponse.createByErrorMessage("用户名或密码错误");
         }

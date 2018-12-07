@@ -9,6 +9,7 @@ import cn.imhtb.pojo.User;
 import cn.imhtb.service.IEssayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -22,9 +23,10 @@ public class EssayController {
     IEssayService iEssayService;
 
     @RequestMapping(value = "{id}",method = RequestMethod.GET)
-    @ResponseBody
-    public Essay showById(@PathVariable("id")Integer id){
-        return  iEssayService.select(id);
+    public String showById(@PathVariable("id")Integer id, Model model){
+        Essay essay = iEssayService.select(id);
+        model.addAttribute("essay",essay);
+        return "jie/detail";
     }
 
     @RequestMapping(value = "/",method = RequestMethod.GET)
