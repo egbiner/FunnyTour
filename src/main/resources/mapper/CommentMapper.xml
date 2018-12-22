@@ -26,7 +26,10 @@
       from tmt_comment
       where essay_id = #{id,jdbcType=INTEGER}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectHotCommentEssay" resultType="cn.imhtb.vo.HotEssayVo">
+      select essay_id id,count(*) number from tmt_comment GROUP BY essay_id ORDER BY number desc limit #{limit}
+    </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tmt_comment
     where id = #{id,jdbcType=INTEGER}
   </delete>

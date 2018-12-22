@@ -48,7 +48,10 @@
     <select id="selectTopHotCities" resultType="cn.imhtb.vo.CityVo">
       select city name,count(*) number from tmt_essay GROUP BY city ORDER BY number desc limit #{limit}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <select id="selectHotVotesEssay" resultType="cn.imhtb.vo.HotEssayVo">
+      select id,vote number,title,city  from tmt_essay order by vote desc limit #{limit}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tmt_essay
     where id = #{id,jdbcType=INTEGER}
   </delete>

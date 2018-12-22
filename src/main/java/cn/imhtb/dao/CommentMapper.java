@@ -1,6 +1,7 @@
 package cn.imhtb.dao;
 
 import cn.imhtb.pojo.Comment;
+import cn.imhtb.vo.HotEssayVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -20,4 +21,8 @@ public interface CommentMapper {
     int updateByPrimaryKey(Comment record);
 
     List<Comment> selectAllByEssayId(Integer id);
+
+    List<HotEssayVo> selectHotCommentEssay(int limit);
+
+    List<HotEssayVo> selectHotVotesEssay(int limit);
 }

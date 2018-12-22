@@ -8,6 +8,7 @@ import cn.imhtb.service.IEssayService;
 import cn.imhtb.service.IUserService;
 import cn.imhtb.utils.BaiduMapPointUtils;
 import cn.imhtb.vo.BaiduLocation;
+import cn.imhtb.vo.EssayVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
@@ -52,10 +53,12 @@ public class IndexController {
 //    }
 
     @RequestMapping("/")
-    public String index(HttpSession session)
+    public String index(HttpSession session,Model model)
     {
         ServerResponse<User> serverResponse = iUserService.login("admin", "admin");
+        List<EssayVo> essayVos = iEssayService.selectAllVo();
         session.setAttribute(Const.CURRENT_USER,serverResponse.getData());
+        model.addAttribute("essays",essayVos);
         return "index";
     }
 

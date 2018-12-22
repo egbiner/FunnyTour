@@ -6,7 +6,10 @@ import cn.imhtb.common.ResponseCode;
 import cn.imhtb.common.ServerResponse;
 import cn.imhtb.pojo.Essay;
 import cn.imhtb.pojo.User;
+import cn.imhtb.service.ICommentService;
 import cn.imhtb.service.IEssayService;
+import cn.imhtb.vo.CommentVo;
+import cn.imhtb.vo.EssayVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,11 +24,15 @@ public class EssayController {
 
     @Autowired
     IEssayService iEssayService;
+    @Autowired
+    ICommentService iCommentService;
 
     @RequestMapping(value = "{id}",method = RequestMethod.GET)
     public String showById(@PathVariable("id")Integer id, Model model){
-        Essay essay = iEssayService.select(id);
-        model.addAttribute("essay",essay);
+        EssayVo essayVo = iEssayService.select(id);
+        List<CommentVo> commentVo = iCommentService.listAllCommentVoByEssayId(essayVo.getId());
+        model.addAttribute("essay",essayVo);
+        model.addAttribute("comments",commentVo);
         return "jie/detail";
     }
 

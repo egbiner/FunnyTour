@@ -29,7 +29,7 @@ layui.define('fly', function(exports){
       ,time: 10000
     };
     elemQuiz.addClass('layui-hide');
-    if(value === '0'){
+    if(value === '1'){
       layer.tips('下面的信息将便于您获得更好的答案', obj.othis, tips);
       elemQuiz.removeClass('layui-hide');
     } else if(value === '99'){
@@ -205,18 +205,15 @@ layui.define('fly', function(exports){
     }
     ,del: function(li){ //删除
       layer.confirm('确认删除该回答么？', function(index){
-        layer.close(index);
-        fly.json('/api/jieda-delete/', {
+          layer.close(index);
+        fly.json('/comment/delete/', {
           id: li.data('id')
         }, function(res){
           if(res.status === 0){
             var count = dom.jiedaCount.text()|0;
             dom.jiedaCount.html(--count);
             li.remove();
-            //如果删除了最佳答案
-            if(li.hasClass('jieda-daan')){
-              $('.jie-status').removeClass('jie-status-ok').text('求解中');
-            }
+            layer.msg(res.msg);
           } else {
             layer.msg(res.msg);
           }

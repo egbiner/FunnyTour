@@ -2,6 +2,7 @@ package cn.imhtb.dao;
 
 import cn.imhtb.pojo.Essay;
 import cn.imhtb.vo.CityVo;
+import cn.imhtb.vo.HotEssayVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -28,4 +29,6 @@ public interface EssayMapper {
     int selectCountByUserId(Integer userId);
 
     List<CityVo> selectTopHotCities(int limit);
+
+    List<HotEssayVo> selectHotVotesEssay(int limit);
 }

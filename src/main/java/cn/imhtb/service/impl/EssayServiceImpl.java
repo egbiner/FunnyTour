@@ -3,12 +3,13 @@ package cn.imhtb.service.impl;
 
 import cn.imhtb.common.ServerResponse;
 import cn.imhtb.dao.EssayMapper;
-import cn.imhtb.pojo.Category;
+import cn.imhtb.dao.UserMapper;
 import cn.imhtb.pojo.Essay;
+import cn.imhtb.pojo.User;
 import cn.imhtb.service.IEssayService;
-import cn.imhtb.vo.ChartsVo;
 import cn.imhtb.vo.CityVo;
-import org.apache.commons.lang3.StringUtils;
+import cn.imhtb.vo.EssayVo;
+import cn.imhtb.vo.HotEssayVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +19,33 @@ import java.util.*;
 public class EssayServiceImpl implements IEssayService {
     @Autowired
     EssayMapper essayMapper;
+    @Autowired
+    UserMapper userMapper;
 
     @Override
-    public Essay select(Integer id) {
-        return essayMapper.selectByPrimaryKey(id);
+    public EssayVo select(Integer id) {
+        Essay e =essayMapper.selectByPrimaryKey(id);
+        EssayVo essayVo = new EssayVo();
+        User user = userMapper.selectByPrimaryKey(e.getUserId());
+        essayVo.setId(e.getId());
+        essayVo.setTitle(e.getTitle());
+        essayVo.setContent(e.getContent());
+        essayVo.setCreateTime(e.getCreateTime());
+
+        essayVo.setUserAvatar(user.getAvatar());
+        essayVo.setUsername(user.getName());
+        essayVo.setUserId(e.getUserId());
+        //TODO
+        essayVo.setCommentNum(88);
+        essayVo.setView(e.getView());
+
+        return essayVo;
     }
 
     @Override
     public ServerResponse<String> add(Essay essay) {
+        essay.setView(0);
+        essay.setVote(0);
         essay.setCreateTime(new Date());
         essay.setUpdateTime(new Date());
         int count = essayMapper.insert(essay);
@@ -72,56 +92,39 @@ public class EssayServiceImpl implements IEssayService {
         return essayMapper.selectCountByUserId(userId);
     }
 
-//    @Override
-//    public ServerResponse<ChartsVo> getTopHotCities() {
-//        List<Essay> list = essayMapper.selectTopHotCities(10);
-//        Map<String,Integer> map = new HashMap<>();
-//        for (Essay essay:list) {
-//            if (StringUtils.isBlank(essay.getCity()))
-//                continue;
-//            if (map.containsKey(essay.getCity())){
-//                map.put(essay.getCity(),map.get(essay.getCity())+1);
-//            }else{
-//                map.put(essay.getCity(),1);
-//            }
-//        }
-//        int index = 0;
-//        String[] category = new String[map.size()];
-//        Integer[] data = new Integer[map.size()];
-//        for (Map.Entry<String, Integer> en: map.entrySet()) {
-//            category[index] = en.getKey();
-//            data[index] = en.getValue();
-//            index ++;
-//        }
-//        ChartsVo chartsVo = new ChartsVo();
-//        chartsVo.setCategory(category);
-//        chartsVo.setData(data);
-//        return ServerResponse.createBySuccess(chartsVo);
-//    }
     public ServerResponse<List<CityVo>> getTopHotCitiesData() {
         List<CityVo> list = essayMapper.selectTopHotCities(10);
-//        Map<String,Integer> map = new HashMap<>();
-//        for (Essay essay:list) {
-//            if (StringUtils.isBlank(essay.getCity()))
-//                continue;
-//            if (map.containsKey(essay.getCity())){
-//                map.put(essay.getCity(),map.get(essay.getCity())+1);
-//            }else{
-//                map.put(essay.getCity(),1);
-//            }
-//        }
-//        int index = 0;
-//        String[] category = new String[list.size()];
-//        Integer[] data = new Integer[list.size()];
-//        for (Map.Entry<String, Integer> en: map.entrySet()) {
-//            category[index] = en.getKey();
-//            data[index] = en.getValue();
-//            index ++;
-//        }
-//        ChartsVo chartsVo = new ChartsVo();
-//        chartsVo.setCategory(category);
-//        chartsVo.setData(data);
         return ServerResponse.createBySuccess(list);
+    }
+
+    @Override
+    public List<EssayVo> selectAllVo() {
+        List<Essay> list = essayMapper.selectAll();
+        List<EssayVo> listVo = new ArrayList<>();
+        for (Essay e:list) {
+            User user = userMapper.selectByPrimaryKey(e.getUserId());
+            EssayVo essayVo = new EssayVo();
+            essayVo.setId(e.getId());
+            essayVo.setTitle(e.getTitle());
+            essayVo.setContent(e.getContent());
+            essayVo.setCreateTime(e.getCreateTime());
+
+            essayVo.setUserAvatar(user.getAvatar());
+            essayVo.setUsername(user.getName());
+            essayVo.setUserId(e.getUserId());
+            //TODO
+            essayVo.setCommentNum(88);
+            essayVo.setView(e.getView());
+
+            listVo.add(essayVo);
+        }
+        return listVo;
+    }
+
+    @Override
+    public List<HotEssayVo> getHotVotesEssay(int limit) {
+        List<HotEssayVo> list = essayMapper.selectHotVotesEssay(limit);
+        return list;
     }
 
 

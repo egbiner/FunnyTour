@@ -56,7 +56,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function(
       var that = this, type = typeof data === 'function';
       
       if(type){
-        options = success
+        options = success;
         success = data;
         data = {};
       }
