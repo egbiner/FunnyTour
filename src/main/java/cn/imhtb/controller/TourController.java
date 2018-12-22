@@ -76,12 +76,33 @@ public class TourController {
 
 
     /**
-     * 获取热评文章
+     * 获取点赞最高文章
      */
     @RequestMapping("/hotVotes")
     @ResponseBody
     public ServerResponse<ChartsVo> hotVotes(){
         List<HotEssayVo> list = iEssayService.getHotVotesEssay(10);
+        ChartsVo chartsVo = new ChartsVo();
+        int index = list.size()-1;
+        String[] category = new String[list.size()];
+        Integer[] data = new Integer[list.size()];
+        for (HotEssayVo c:list) {
+            category[index] = c.getId().toString();
+            data[index] = c.getNumber();
+            index--;
+        }
+        chartsVo.setCategory(category);
+        chartsVo.setData(data);
+        return ServerResponse.createBySuccess(chartsVo);
+    }
+
+    /**
+     * 获取浏览最高文章
+     */
+    @RequestMapping("/hotViews")
+    @ResponseBody
+    public ServerResponse<ChartsVo> hotViews(){
+        List<HotEssayVo> list = iEssayService.getHotViewsEssay(10);
         ChartsVo chartsVo = new ChartsVo();
         int index = list.size()-1;
         String[] category = new String[list.size()];

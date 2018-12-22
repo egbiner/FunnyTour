@@ -2,6 +2,7 @@ package cn.imhtb.service.impl;
 
 
 import cn.imhtb.common.ServerResponse;
+import cn.imhtb.dao.CommentMapper;
 import cn.imhtb.dao.EssayMapper;
 import cn.imhtb.dao.UserMapper;
 import cn.imhtb.pojo.Essay;
@@ -21,6 +22,8 @@ public class EssayServiceImpl implements IEssayService {
     EssayMapper essayMapper;
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    CommentMapper commentMapper;
 
     @Override
     public EssayVo select(Integer id) {
@@ -35,8 +38,9 @@ public class EssayServiceImpl implements IEssayService {
         essayVo.setUserAvatar(user.getAvatar());
         essayVo.setUsername(user.getName());
         essayVo.setUserId(e.getUserId());
-        //TODO
-        essayVo.setCommentNum(88);
+
+        int commentNum = commentMapper.selectCountByEssayId(e.getId());
+        essayVo.setCommentNum(commentNum);
         essayVo.setView(e.getView());
 
         return essayVo;
@@ -123,8 +127,12 @@ public class EssayServiceImpl implements IEssayService {
 
     @Override
     public List<HotEssayVo> getHotVotesEssay(int limit) {
-        List<HotEssayVo> list = essayMapper.selectHotVotesEssay(limit);
-        return list;
+        return essayMapper.selectHotVotesEssay(limit);
+    }
+
+    @Override
+    public List<HotEssayVo> getHotViewsEssay(int limit) {
+        return  essayMapper.selectHotViewsEssay(limit);
     }
 
 

@@ -51,6 +51,9 @@
   <select id="selectHotVotesEssay" resultType="cn.imhtb.vo.HotEssayVo">
       select id,vote number,title,city  from tmt_essay order by vote desc limit #{limit}
   </select>
+  <select id="selectHotViewsEssay" resultType="cn.imhtb.vo.HotEssayVo">
+      select id,view number,title,city  from tmt_essay order by view desc limit #{limit}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tmt_essay
     where id = #{id,jdbcType=INTEGER}

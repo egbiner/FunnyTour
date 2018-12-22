@@ -31,4 +31,6 @@ public interface EssayMapper {
     List<CityVo> selectTopHotCities(int limit);
 
     List<HotEssayVo> selectHotVotesEssay(int limit);
+
+    List<HotEssayVo> selectHotViewsEssay(int limit);
 }

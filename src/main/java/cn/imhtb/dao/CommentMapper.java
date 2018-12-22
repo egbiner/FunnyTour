@@ -24,5 +24,5 @@ public interface CommentMapper {
 
     List<HotEssayVo> selectHotCommentEssay(int limit);
 
-    List<HotEssayVo> selectHotVotesEssay(int limit);
+    int selectCountByEssayId(Integer id);
 }
