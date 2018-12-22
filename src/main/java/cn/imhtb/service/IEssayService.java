@@ -3,6 +3,7 @@ package cn.imhtb.service;
 
 import cn.imhtb.common.ServerResponse;
 import cn.imhtb.pojo.Essay;
+import cn.imhtb.vo.CityVo;
 
 import java.util.List;
 
@@ -21,4 +22,6 @@ public interface IEssayService {
     List<Essay> selectByUserIdWithSelective(Integer userId,Integer count);
 
     int selectCountByUserId(Integer userId);
+
+    ServerResponse<List<CityVo>> getTopHotCitiesData();
 }

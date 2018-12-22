@@ -39,7 +39,7 @@
       </ul>
       <div class="layui-tab-content" style="padding: 20px 0;">
         <div class="layui-form layui-form-pane layui-tab-item layui-show">
-          <form id="form1" method="post">
+          <form id="form1" method="post" th:action="@{/user/edit}">
             <div class="layui-form-item">
               <label for="L_name" class="layui-form-label">昵称</label>
               <div class="layui-input-inline">
@@ -80,7 +80,7 @@
               </div>
             </div>
             <div class="layui-form-item">
-              <button class="layui-btn" key="set-mine" lay-filter="*" lay-submit onclick="edit()">确认修改</button>
+              <button class="layui-btn" key="set-mine" lay-filter="*" lay-submit >确认修改</button>
             </div>
           </div>
           
@@ -98,7 +98,7 @@
           </div>
           
           <div class="layui-form layui-form-pane layui-tab-item">
-            <form action="/user/repass" method="post">
+            <form th:action="@{/user/repass}" method="post">
               <div class="layui-form-item">
                 <label for="L_nowpass" class="layui-form-label">当前密码</label>
                 <div class="layui-input-inline">
@@ -175,13 +175,13 @@
                       ,time: 2000
                       ,shade: 0.1
                   }, function(){
-                      location.reload();
+                      //location.reload();
                   });
               }
 
             },
             error: function (res) {
-                alert("数据获取失败")
+                alert("数据获取失败");
             }
         });
    }

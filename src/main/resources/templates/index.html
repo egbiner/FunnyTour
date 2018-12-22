@@ -16,7 +16,7 @@
 <div class="fly-header layui-bg-black" th:fragment="fra_topbar">
   <div class="layui-container">
     <a class="fly-logo" href="/">
-      <img src="../res/images/logo.png" th:src="@{/res/images/logo2.png}" alt="layui">
+      <img src="../res/images/logo.png" th:src="@{/res/images/logo3.png}" alt="layui">
     </a>
     <ul class="layui-nav fly-nav layui-hide-xs">
       <li class="layui-nav-item layui-this">
@@ -24,6 +24,9 @@
       </li>
       <li class="layui-nav-item">
         <a th:href="@{/point}"><i class="iconfont icon-ui"></i>旅游热点</a>
+      </li>
+      <li class="layui-nav-item">
+        <a th:href="@{/recommend}"><i class="iconfont icon-ui"></i>旅游热点</a>
       </li>
     </ul>
     
@@ -565,7 +568,7 @@
         </ul>
         <div style="text-align: center">
           <div class="laypage-main">
-            <a href="jie/index.html" class="laypage-next">更多求解</a>
+            <a href="jie/index.html" th:href="@{/more}" class="laypage-next">更多</a>
           </div>
         </div>
 
@@ -579,7 +582,7 @@
   </div>
 </div>
 
-<div class="fly-footer">
+<div class="fly-footer" th:fragment="fra_footbar">
   <p><a href="http://fly.layui.com/" target="_blank">Fly社区</a> 2017 &copy; <a href="http://www.layui.com/" target="_blank">layui.com 出品</a></p>
   <p>
     <a href="http://fly.layui.com/jie/3147/" target="_blank">付费计划</a>

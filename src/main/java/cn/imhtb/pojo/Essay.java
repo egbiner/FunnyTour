@@ -34,4 +34,6 @@ public class Essay {
 
     private Integer vote;
 
+    private String city;
+
 }

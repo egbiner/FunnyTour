@@ -16,10 +16,11 @@
     <result column="position" jdbcType="VARCHAR" property="position" />
     <result column="view" jdbcType="INTEGER" property="view" />
     <result column="vote" jdbcType="INTEGER" property="vote" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
   </resultMap>
   <sql id="Base_Column_List">
     id, user_id, category_id, title, sub_title, image, sub_image, content, sub_content, 
-    create_time, update_time, position, view, vote
+    create_time, update_time, position, view, vote, city
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -44,7 +45,10 @@
   <select id="selectCountByUserId" resultType="java.lang.Integer">
       select count(*) from tmt_essay where user_id = #{userId}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectTopHotCities" resultType="cn.imhtb.vo.CityVo">
+      select city name,count(*) number from tmt_essay GROUP BY city ORDER BY number desc limit #{limit}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tmt_essay
     where id = #{id,jdbcType=INTEGER}
   </delete>
@@ -53,12 +57,12 @@
       title, sub_title, image, 
       sub_image, content, sub_content, 
       create_time, update_time, position, 
-      view, vote)
+      view, vote, city)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, 
       #{title,jdbcType=VARCHAR}, #{subTitle,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, 
       #{subImage,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{subContent,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{position,jdbcType=VARCHAR}, 
-      #{view,jdbcType=INTEGER}, #{vote,jdbcType=INTEGER})
+      #{view,jdbcType=INTEGER}, #{vote,jdbcType=INTEGER}, #{city,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.imhtb.pojo.Essay">
     insert into tmt_essay
@@ -187,6 +191,9 @@
       <if test="position != null">
         position = #{position,jdbcType=VARCHAR},
       </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
       <if test="view != null">
         view = #{view,jdbcType=INTEGER},
       </if>
@@ -211,6 +218,7 @@
       position = #{position,jdbcType=VARCHAR},
       view = #{view,jdbcType=INTEGER},
       vote = #{vote,jdbcType=INTEGER}
+      city = #{city,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

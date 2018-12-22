@@ -44,8 +44,9 @@ public class BaiduMapPointUtils {
             }
         }
         BaiduResponse baiduResponse = JsonUtil.string2obj(result, BaiduResponse.class);
-        System.out.println("经度:" + baiduResponse.getResult().getLocation().getLng());
-        System.out.println("纬度:" + baiduResponse.getResult().getLocation().getLat());
+        if (!baiduResponse.getStatus().equals("0")){
+            log.error("百度api调用错误{}",baiduResponse.getResult());
+        }
         return baiduResponse.getResult().getLocation();
     }
 
