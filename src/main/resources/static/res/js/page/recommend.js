@@ -8,6 +8,7 @@ var hotVoteLeap = echarts.init(document.getElementById('hotVoteLeap'));
 var hotCommentLeap = echarts.init(document.getElementById('hotCommentLeap'));
 
 $.get('/hotCities').done(function(res){
+    hotCities.hideLoading();
     hotCities.setOption({
         title: {
             text: '热门城市排行',
@@ -180,10 +181,10 @@ $.get('/hotViews').done(function(res){
     });
 });
 
-$.get('/hotViewLeap').done(function(res){
+$.get('/hotViewLeapSum').done(function(res){
     hotViewLeap.setOption({
         title : {
-            text: '某地区蒸发量和降水量',
+            text: '本段时间内浏览量飙升最快',
             subtext: '纯属虚构'
         },
         tooltip : {
@@ -205,7 +206,6 @@ $.get('/hotViewLeap').done(function(res){
         xAxis : [
             {
                 type : 'category',
-                // data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
                 data: res.data.category
             }
         ],
@@ -218,7 +218,6 @@ $.get('/hotViewLeap').done(function(res){
             {
                 name:'蒸发量',
                 type:'line',
-                // data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
                 data:res.data.data,
                 markPoint : {
                     data : [
@@ -236,10 +235,10 @@ $.get('/hotViewLeap').done(function(res){
     });
 });
 
-$.get('/hotVoteLeap').done(function(res){
+$.get('/hotVoteLeapSum').done(function(res){
     hotVoteLeap.setOption({
         title : {
-            text: '某地区蒸发量和降水量',
+            text: '本段时间内点赞量飙升最快',
             subtext: '纯属虚构'
         },
         tooltip : {
@@ -261,7 +260,6 @@ $.get('/hotVoteLeap').done(function(res){
         xAxis : [
             {
                 type : 'category',
-                // data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
                 data: res.data.category
             }
         ],
@@ -274,7 +272,6 @@ $.get('/hotVoteLeap').done(function(res){
             {
                 name:'蒸发量',
                 type:'line',
-                // data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
                 data:res.data.data,
                 markPoint : {
                     data : [
@@ -293,10 +290,10 @@ $.get('/hotVoteLeap').done(function(res){
 });
 
 
-$.get('/hotCommentLeap').done(function(res){
+$.get('/hotCommentLeapSum').done(function(res){
     hotCommentLeap.setOption({
         title : {
-            text: '某地区蒸发量和降水量',
+            text: '本段时间内评论量飙升最快',
             subtext: '纯属虚构'
         },
         tooltip : {
@@ -318,7 +315,6 @@ $.get('/hotCommentLeap').done(function(res){
         xAxis : [
             {
                 type : 'category',
-                // data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
                 data: res.data.category
             }
         ],
@@ -329,9 +325,8 @@ $.get('/hotCommentLeap').done(function(res){
         ],
         series : [
             {
-                name:'蒸发量',
+                name:'评论量',
                 type:'line',
-                // data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
                 data:res.data.data,
                 markPoint : {
                     data : [

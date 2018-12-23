@@ -53,10 +53,10 @@ public class IndexController {
     @RequestMapping("/")
     public String index(HttpSession session,Model model)
     {
-        ServerResponse<User> serverResponse = iUserService.login("admin", "admin");
+//        ServerResponse<User> serverResponse = iUserService.login("admin", "admin");
 //        ServerResponse<User> serverResponse = iUserService.login("user", "user");
         List<EssayVo> essayVos = iEssayService.selectAllVo();
-        session.setAttribute(Const.CURRENT_USER,serverResponse.getData());
+//        session.setAttribute(Const.CURRENT_USER,serverResponse.getData());
         model.addAttribute("essays",essayVos);
         return "index";
     }

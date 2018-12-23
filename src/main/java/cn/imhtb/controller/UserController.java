@@ -48,14 +48,15 @@ public class UserController {
 
     @RequestMapping("login")
     @ResponseBody
-    public ServerResponse<User> login(String username, String password){
-        return iUserService.login(username, password);
+    public ServerResponse<User> login(String username, String password,HttpSession session){
+        ServerResponse<User> serverResponse = iUserService.login(username, password);
+        session.setAttribute(Const.CURRENT_USER,serverResponse.getData());
+        return serverResponse;
     }
     @RequestMapping(value = "logout",method = RequestMethod.GET)
-    @ResponseBody
-    public ServerResponse<String> logout(HttpSession session){
+    public String logout(HttpSession session){
         session.removeAttribute(Const.CURRENT_USER);
-        return ServerResponse.createBySuccessMessage("登出成功");
+        return "redirect:/login";
     }
 
     @RequestMapping(value = "register",method = RequestMethod.POST)

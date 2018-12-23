@@ -27,8 +27,10 @@ public class CommentController {
     @ResponseBody
     public ServerResponse<String> commentReply(Comment comment, HttpSession session){
         iEssayOpService.add(new EssayOp(comment.getEssayId(),Const.EssayOp.ESSAY_COMMENT));
-
         User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user==null){
+            return ServerResponse.createByErrorMessage("请登录后重新尝试");
+        }
         comment.setUserId(user.getId());
         comment.setUpdateTime(new Date());
         comment.setCreateTime(new Date());
