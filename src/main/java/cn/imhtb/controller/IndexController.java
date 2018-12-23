@@ -10,13 +10,11 @@ import cn.imhtb.utils.BaiduMapPointUtils;
 import cn.imhtb.vo.BaiduLocation;
 import cn.imhtb.vo.EssayVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +54,7 @@ public class IndexController {
     public String index(HttpSession session,Model model)
     {
         ServerResponse<User> serverResponse = iUserService.login("admin", "admin");
+//        ServerResponse<User> serverResponse = iUserService.login("user", "user");
         List<EssayVo> essayVos = iEssayService.selectAllVo();
         session.setAttribute(Const.CURRENT_USER,serverResponse.getData());
         model.addAttribute("essays",essayVos);
@@ -68,7 +67,9 @@ public class IndexController {
     }
 
     @RequestMapping("/more")
-    public String to_more(){
+    public String to_more(Model model){
+        List<EssayVo> list = iEssayService.selectAllVo();
+        model.addAttribute("essays",list);
         return "jie/index";
     }
 
@@ -104,16 +105,6 @@ public class IndexController {
         model.addAttribute("essays",essays);
         return "user/index";
     }
-
-    @RequestMapping("/user/home")
-    public String to_home(HttpSession session,Model model){
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
-        List<Essay> essays = iEssayService.selectByUserIdWithSelective(user.getId(),7);
-        model.addAttribute("user",user);
-        model.addAttribute("essays",essays);
-        return "user/home";
-    }
-
 
     @RequestMapping("/essay")
     public String to_essay_add(){

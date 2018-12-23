@@ -1,5 +1,6 @@
 package cn.imhtb.service.impl;
 
+import cn.imhtb.common.Const;
 import cn.imhtb.common.ServerResponse;
 import cn.imhtb.dao.CommentMapper;
 import cn.imhtb.dao.EssayMapper;
@@ -13,6 +14,7 @@ import cn.imhtb.vo.HotEssayVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,12 +29,11 @@ public class CommentServiceImpl implements ICommentService {
 
     @Override
     public List<Comment> listAllCommentByEssayId(Integer id) {
-        List<Comment> list = commentMapper.selectAllByEssayId(id);
-        return list;
+        return commentMapper.selectAllByEssayId(id);
     }
 
     @Override
-    public List<CommentVo> listAllCommentVoByEssayId(Integer id) {
+    public List<CommentVo> listAllCommentVoByEssayId(Integer id, HttpSession session) {
         List<Comment> list = commentMapper.selectAllByEssayId(id);
         List<CommentVo> commentVos = new ArrayList<>();
         for (Comment c:list) {
@@ -41,10 +42,26 @@ public class CommentServiceImpl implements ICommentService {
             commentVo.setId(c.getId());
             commentVo.setContent(c.getContent());
             commentVo.setCreateTime(c.getCreateTime());
+
             commentVo.setUsername(user.getName());
             commentVo.setUserId(c.getUserId());
             commentVo.setUserAvatar(user.getAvatar());
-            commentVo.setBooleanAuthor(essayMapper.selectByPrimaryKey(c.getEssayId()).getUserId()==c.getUserId());
+            commentVo.setUserLevel(user.getLevel());
+
+            Essay essay = essayMapper.selectByPrimaryKey(id);
+            User current_user = (User) session.getAttribute(Const.CURRENT_USER);
+            if (current_user==null){
+                commentVo.setBooleanAuthor(false);
+                commentVo.setBooleanFloorHost(false);
+            }else if (current_user.getId().equals(essay.getUserId())){
+                commentVo.setBooleanCurrentUserAuthor(true);
+                commentVo.setBooleanAuthor(c.getUserId().equals(essay.getUserId()));
+                commentVo.setBooleanFloorHost(current_user.getId().equals(c.getUserId()));
+            }else{
+                commentVo.setBooleanCurrentUserAuthor(false);
+                commentVo.setBooleanAuthor(c.getUserId().equals(essay.getUserId()));
+                commentVo.setBooleanFloorHost(current_user.getId().equals(c.getUserId()));
+            }
             commentVos.add(commentVo);
         }
         return commentVos;

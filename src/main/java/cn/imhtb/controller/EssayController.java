@@ -5,8 +5,10 @@ import cn.imhtb.common.Const;
 import cn.imhtb.common.ResponseCode;
 import cn.imhtb.common.ServerResponse;
 import cn.imhtb.pojo.Essay;
+import cn.imhtb.pojo.EssayOp;
 import cn.imhtb.pojo.User;
 import cn.imhtb.service.ICommentService;
+import cn.imhtb.service.IEssayOpService;
 import cn.imhtb.service.IEssayService;
 import cn.imhtb.vo.CommentVo;
 import cn.imhtb.vo.EssayVo;
@@ -26,14 +28,29 @@ public class EssayController {
     IEssayService iEssayService;
     @Autowired
     ICommentService iCommentService;
+    @Autowired
+    IEssayOpService iEssayOpService;
 
     @RequestMapping(value = "{id}",method = RequestMethod.GET)
-    public String showById(@PathVariable("id")Integer id, Model model){
+    public String showById(@PathVariable("id")Integer id, Model model,HttpSession session){
+        iEssayOpService.add(new EssayOp(id,Const.EssayOp.ESSAY_VIEW));
+
         EssayVo essayVo = iEssayService.select(id);
-        List<CommentVo> commentVo = iCommentService.listAllCommentVoByEssayId(essayVo.getId());
+        List<CommentVo> commentVo = iCommentService.listAllCommentVoByEssayId(essayVo.getId(),session);
         model.addAttribute("essay",essayVo);
         model.addAttribute("comments",commentVo);
         return "jie/detail";
+    }
+
+    @RequestMapping(value = "vote")
+    @ResponseBody
+    public ServerResponse<String> voteById(Integer id,HttpSession session){
+        iEssayOpService.add(new EssayOp(id,Const.EssayOp.ESSAY_VOTE));
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user==null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"请登录后再尝试");
+        }
+        return iEssayService.vote(id);
     }
 
     @RequestMapping(value = "/",method = RequestMethod.GET)
@@ -82,7 +99,8 @@ public class EssayController {
         if (user==null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"请登录后再尝试");
         }
-        if (essay.getUserId().equals(user.getId())){  //Integer之间的比较
+        //Integer之间的比较
+        if (essay.getUserId().equals(user.getId())){
             return ServerResponse.createByErrorMessage("无权限操作");
         }
         return iEssayService.edit(essay);

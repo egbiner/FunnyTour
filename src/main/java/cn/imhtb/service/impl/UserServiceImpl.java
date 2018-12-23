@@ -38,4 +38,9 @@ public class UserServiceImpl implements IUserService {
             return ServerResponse.createByErrorMessage("注册失败");
         }
     }
+
+    @Override
+    public User getInfoById(Integer uid) {
+        return userMapper.selectPartInfoByPrimaryKey(uid);
+    }
 }

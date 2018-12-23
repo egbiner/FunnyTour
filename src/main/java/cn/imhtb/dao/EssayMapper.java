@@ -33,4 +33,6 @@ public interface EssayMapper {
     List<HotEssayVo> selectHotVotesEssay(int limit);
 
     List<HotEssayVo> selectHotViewsEssay(int limit);
+
+    int vote(Integer id);
 }

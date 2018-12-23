@@ -32,6 +32,13 @@
       from tmt_user
       where username = #{username} and password = #{password}
     </select>
+    <select id="selectPartInfoByPrimaryKey" resultType="cn.imhtb.pojo.User">
+      select
+      id, username, role, email, create_time, update_time, name, level,
+    introduce, sex, avatar
+      from tmt_user
+      where id = #{id,jdbcType=INTEGER}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tmt_user
     where id = #{id,jdbcType=INTEGER}

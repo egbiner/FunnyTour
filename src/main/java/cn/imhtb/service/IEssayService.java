@@ -32,4 +32,6 @@ public interface IEssayService {
     List<HotEssayVo> getHotVotesEssay(int i);
 
     List<HotEssayVo> getHotViewsEssay(int i);
+
+    ServerResponse<String> vote(Integer id);
 }

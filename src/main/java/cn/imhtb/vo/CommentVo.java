@@ -24,6 +24,21 @@ public class CommentVo {
     private Date updateTime;
 
     /**
+     * 楼主
+     */
+    private Boolean booleanFloorHost;
+
+    /**
+     * 文章作者
+     */
+    private Boolean booleanAuthor;
+
+    /**
+     * 当前用户是作者
+     */
+    private Boolean booleanCurrentUserAuthor;
+
+    /**
      *
      *
      */
@@ -32,5 +47,5 @@ public class CommentVo {
 
     private String userAvatar;
 
-    private Boolean booleanAuthor;
+    private Integer userLevel;
 }

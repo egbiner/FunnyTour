@@ -12,4 +12,11 @@ public class Const {
         int ROLE_ADMIN = 1;//管理员
     }
 
+    public interface EssayOp{
+        int ESSAY_VIEW = 0;//浏览
+        int ESSAY_VOTE = 1;//点赞
+        int ESSAY_COMMENT = 2;//评论
+
+    }
+
 }

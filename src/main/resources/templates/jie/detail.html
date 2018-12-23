@@ -107,10 +107,11 @@
                 <a href="" class="fly-link">
                   <cite th:text="${comment.username}">贤心</cite>
                   <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                  <i class="layui-badge fly-badge-vip">VIP3</i>              
+                  <i class="layui-badge fly-badge-vip">VIP[[${comment.userLevel}]]</i>
                 </a>
                 
-                <span th:if="${comment.booleanAuthor}">(楼主)</span>
+                <span th:if="${comment.booleanFloorHost}">(我)</span>
+                <span th:if="${comment.booleanAuthor}" style="color:#ff442d">(作者)</span>
                 <!--
                 <span style="color:#5FB878">(管理员)</span>
                 <span style="color:#FF9E3F">（社区之光）</span>
@@ -137,8 +138,8 @@
                 回复
               </span>
               <div class="jieda-admin">
-                <span type="edit">编辑</span>
-                <span type="del" th:if="${comment.booleanAuthor}">删除</span>
+                <!--<span type="edit">编辑</span>-->
+                <span type="del" th:if="${comment.booleanCurrentUserAuthor||comment.booleanFloorHost}">删除</span>
                 <!-- <span class="jieda-accept" type="accept">采纳</span> -->
               </div>
             </div>

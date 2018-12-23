@@ -116,8 +116,8 @@ public class EssayServiceImpl implements IEssayService {
             essayVo.setUserAvatar(user.getAvatar());
             essayVo.setUsername(user.getName());
             essayVo.setUserId(e.getUserId());
-            //TODO
-            essayVo.setCommentNum(88);
+
+            essayVo.setCommentNum(commentMapper.selectCountByEssayId(e.getId()));
             essayVo.setView(e.getView());
 
             listVo.add(essayVo);
@@ -133,6 +133,16 @@ public class EssayServiceImpl implements IEssayService {
     @Override
     public List<HotEssayVo> getHotViewsEssay(int limit) {
         return  essayMapper.selectHotViewsEssay(limit);
+    }
+
+    @Override
+    public ServerResponse<String> vote(Integer id) {
+        int count = essayMapper.vote(id);
+        if (count>0){
+            return ServerResponse.createBySuccessMessage("投票成功");
+        }else {
+            return ServerResponse.createByErrorMessage("投票失败");
+        }
     }
 
 
