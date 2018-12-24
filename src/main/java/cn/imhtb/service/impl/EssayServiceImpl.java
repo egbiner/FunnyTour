@@ -1,9 +1,11 @@
 package cn.imhtb.service.impl;
 
 
+import cn.imhtb.common.Const;
 import cn.imhtb.common.ServerResponse;
 import cn.imhtb.dao.CommentMapper;
 import cn.imhtb.dao.EssayMapper;
+import cn.imhtb.dao.EssayOpMapper;
 import cn.imhtb.dao.UserMapper;
 import cn.imhtb.pojo.Essay;
 import cn.imhtb.pojo.User;
@@ -24,6 +26,8 @@ public class EssayServiceImpl implements IEssayService {
     UserMapper userMapper;
     @Autowired
     CommentMapper commentMapper;
+    @Autowired
+    EssayOpMapper essayOpMapper;
 
     @Override
     public EssayVo select(Integer id) {
@@ -33,6 +37,8 @@ public class EssayServiceImpl implements IEssayService {
         essayVo.setId(e.getId());
         essayVo.setTitle(e.getTitle());
         essayVo.setContent(e.getContent());
+        essayVo.setCity(e.getCity());
+        essayVo.setPosition(e.getPosition());
         essayVo.setCreateTime(e.getCreateTime());
 
         essayVo.setUserAvatar(user.getAvatar());
@@ -41,7 +47,10 @@ public class EssayServiceImpl implements IEssayService {
 
         int commentNum = commentMapper.selectCountByEssayId(e.getId());
         essayVo.setCommentNum(commentNum);
-        essayVo.setView(e.getView());
+        int viewCount = essayOpMapper.selectOpCountByEssayIdAndOp(e.getId(), Const.EssayOp.ESSAY_VIEW);
+        essayVo.setView(viewCount);
+        int voteCount = essayOpMapper.selectOpCountByEssayIdAndOp(e.getId(), Const.EssayOp.ESSAY_VOTE);
+        essayVo.setVote(voteCount);
 
         return essayVo;
     }
@@ -125,11 +134,20 @@ public class EssayServiceImpl implements IEssayService {
         return listVo;
     }
 
+    /**
+     * 根据essay的vote获取（过时）
+     * @param limit
+     * @return
+     */
     @Override
     public List<HotEssayVo> getHotVotesEssay(int limit) {
         return essayMapper.selectHotVotesEssay(limit);
     }
-
+    /**
+     * 根据essay的view获取（过时）
+     * @param limit
+     * @return
+     */
     @Override
     public List<HotEssayVo> getHotViewsEssay(int limit) {
         return  essayMapper.selectHotViewsEssay(limit);
@@ -142,6 +160,16 @@ public class EssayServiceImpl implements IEssayService {
             return ServerResponse.createBySuccessMessage("投票成功");
         }else {
             return ServerResponse.createByErrorMessage("投票失败");
+        }
+    }
+
+    @Override
+    public ServerResponse<String> updateView(Integer essayId) {
+        int count = essayMapper.updateViewByEssayId(essayId);
+        if (count>0){
+            return ServerResponse.createBySuccessMessage("更新成功");
+        }else {
+            return ServerResponse.createByErrorMessage("更新失败");
         }
     }
 

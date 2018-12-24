@@ -35,4 +35,6 @@ public interface EssayMapper {
     List<HotEssayVo> selectHotViewsEssay(int limit);
 
     int vote(Integer id);
+
+    int updateViewByEssayId(Integer essayId);
 }

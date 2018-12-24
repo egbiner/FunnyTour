@@ -109,8 +109,8 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr th:each="essay,hotVotessStat:${hotVotesEssays}">
-                                                <td>[[${hotVotessStat.index}+1]]</td>
+                                            <tr th:each="essay,hotViewsStat:${hotViewsEssays}">
+                                                <td>[[${hotViewsStat.index}+1]]</td>
                                                 <td><a th:href="@{'/essay/'+${essay.id}}" target="_blank">[[${essay.title}]]</a></td>
                                                 <td>[[${essay.city}]]</td>
                                                 <td>[[${essay.number}]]</td>

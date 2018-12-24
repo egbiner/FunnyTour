@@ -19,7 +19,7 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
     <select id="selectHotLeapList" resultType="cn.imhtb.vo.HotEssayVo" parameterType="map">
-    select count(*) number,essay_id,essay_op,DATE_FORMAT(create_time,'%Y-%m-%d') create_time
+    select count(*) number,essay_id id,essay_op,DATE_FORMAT(create_time,'%Y-%m-%d') create_time
      from tmt_essayop
       where essay_op = #{essayOp} and essay_id = #{essayId} and DATE_FORMAT(create_time,'%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
       GROUP BY essay_id,essay_op,DATE_FORMAT(create_time,'%Y-%m-%d')
@@ -29,6 +29,15 @@
     where essay_op = #{essayOp} and DATE_FORMAT(create_time,'%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
      GROUP BY essay_id,essay_op
      ORDER BY count(*) DESC LIMIT 1
+  </select>
+  <select id="selectOpCountByEssayIdAndOp" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM (select essay_id from tmt_essayop where essay_id = #{essayId} and essay_op = #{essayOp} ) t
+  </select>
+  <select id="checkVote" resultType="java.lang.Integer">
+    SELECT count(*) FROM tmt_essayop where user_id = #{userId} and essay_id = #{essayId} and essay_op = #{essayOp}
+  </select>
+  <select id="selectHotEssaysByOpAndLimit" resultType="cn.imhtb.vo.HotEssayVo">
+    select count(*) number,essay_id id,essay_op FROM tmt_essayop where essay_op = #{essayOp} GROUP BY essay_id,essay_op order by number desc limit #{limit}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tmt_essayop

@@ -139,7 +139,7 @@ layui.define('fly', function(exports){
   gather.jiedaActive = {
     zan: function(li){ //赞
       var othis = $(this), ok = othis.hasClass('zanok');
-      fly.json('/api/jieda-zan/', {
+      fly.json('/essay/vote', {
         ok: ok
         ,id: li.data('id')
       }, function(res){

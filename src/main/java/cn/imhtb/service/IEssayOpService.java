@@ -15,4 +15,8 @@ public interface IEssayOpService {
     List<HotEssayVo> getHotVoteLeap(Date startDate, Date endDate);
 
     List<HotEssayVo> getHotCommentLeap(Date startDate, Date endDate);
+
+    List<HotEssayVo> getHotEssaysByOpAndLimit(int essayOp, int limit);
+
+    List<HotEssayVo> getHotEssaysVoByOpAndLimit(int essayOp, int limit);
 }

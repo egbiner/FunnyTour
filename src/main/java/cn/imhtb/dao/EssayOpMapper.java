@@ -25,4 +25,10 @@ public interface EssayOpMapper {
     List<HotEssayVo> selectHotLeapList(@Param("essayId") int essayId,@Param("essayOp") int essayOp,@Param("startDate") Date startDate,@Param("endDate") Date endDate);
 
     int selectHotLeapEssayIdByOp(@Param("essayOp") int essayOp,@Param("startDate") Date startDate,@Param("endDate") Date endDate);
+
+    int selectOpCountByEssayIdAndOp(@Param("essayId")Integer essayId,@Param("essayOp") int essayOp);
+
+    int checkVote(@Param("essayId") Integer essayId,@Param("essayOp") Integer essayOp,@Param("userId") Integer userId);
+
+    List<HotEssayVo> selectHotEssaysByOpAndLimit(@Param("essayOp")int essayOp,@Param("limit") int limit);
 }

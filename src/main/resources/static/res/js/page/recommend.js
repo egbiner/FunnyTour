@@ -173,7 +173,7 @@ $.get('/hotViews').done(function(res){
                 data: res.data.data,
                 itemStyle:{
                     normal:{
-                        color:'#248544'
+                        color:'#1b8568'
                     }
                 }
             }
@@ -185,13 +185,13 @@ $.get('/hotViewLeapSum').done(function(res){
     hotViewLeap.setOption({
         title : {
             text: '本段时间内浏览量飙升最快',
-            subtext: '纯属虚构'
+            subtext: res.data.titleSubText
         },
         tooltip : {
             trigger: 'axis'
         },
         legend: {
-            data:['蒸发量','降水量']
+            data:['浏览量']
         },
         toolbox: {
             show : true,
@@ -216,7 +216,7 @@ $.get('/hotViewLeapSum').done(function(res){
         ],
         series : [
             {
-                name:'蒸发量',
+                name:'浏览量',
                 type:'line',
                 data:res.data.data,
                 markPoint : {
@@ -239,13 +239,13 @@ $.get('/hotVoteLeapSum').done(function(res){
     hotVoteLeap.setOption({
         title : {
             text: '本段时间内点赞量飙升最快',
-            subtext: '纯属虚构'
+            subtext: res.data.titleSubText
         },
         tooltip : {
             trigger: 'axis'
         },
         legend: {
-            data:['蒸发量','降水量']
+            data:['点赞量']
         },
         toolbox: {
             show : true,
@@ -270,7 +270,7 @@ $.get('/hotVoteLeapSum').done(function(res){
         ],
         series : [
             {
-                name:'蒸发量',
+                name:'点赞量',
                 type:'line',
                 data:res.data.data,
                 markPoint : {
@@ -294,13 +294,13 @@ $.get('/hotCommentLeapSum').done(function(res){
     hotCommentLeap.setOption({
         title : {
             text: '本段时间内评论量飙升最快',
-            subtext: '纯属虚构'
+            subtext: res.data.titleSubText
         },
         tooltip : {
             trigger: 'axis'
         },
         legend: {
-            data:['蒸发量','降水量']
+            data:['评论量']
         },
         toolbox: {
             show : true,

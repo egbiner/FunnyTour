@@ -1,7 +1,9 @@
 package cn.imhtb.controller;
 
+import cn.imhtb.common.Const;
 import cn.imhtb.common.ServerResponse;
 import cn.imhtb.service.ICommentService;
+import cn.imhtb.service.IEssayOpService;
 import cn.imhtb.service.IEssayService;
 import cn.imhtb.vo.ChartsVo;
 import cn.imhtb.vo.CityVo;
@@ -22,12 +24,18 @@ public class TourController {
     IEssayService iEssayService;
     @Autowired
     ICommentService iCommentService;
+    @Autowired
+    IEssayOpService iEssayOpService;
 
     @RequestMapping("/recommend")
     public String to_recommend(Model model){
         model.addAttribute("hotCities",iEssayService.getTopHotCitiesData().getData());
         model.addAttribute("hotCommentsEssays",iCommentService.getHotCommentEssay(10));
-        model.addAttribute("hotVotesEssays",iEssayService.getHotVotesEssay(10));
+//        model.addAttribute("hotVotesEssays",iEssayService.getHotVotesEssay(10));
+//        model.addAttribute("hotViewsEssays",iEssayService.getHotViewsEssay(10));
+        //返回id,number,title,city
+        model.addAttribute("hotVotesEssays",iEssayOpService.getHotEssaysVoByOpAndLimit(Const.EssayOp.ESSAY_VOTE,10));
+        model.addAttribute("hotViewsEssays",iEssayOpService.getHotEssaysVoByOpAndLimit(Const.EssayOp.ESSAY_VIEW,10));
         return "recommend";
     }
 
@@ -81,7 +89,8 @@ public class TourController {
     @RequestMapping("/hotVotes")
     @ResponseBody
     public ServerResponse<ChartsVo> hotVotes(){
-        List<HotEssayVo> list = iEssayService.getHotVotesEssay(10);
+        //List<HotEssayVo> list = iEssayService.getHotVotesEssay(10);
+        List<HotEssayVo> list = iEssayOpService.getHotEssaysByOpAndLimit(Const.EssayOp.ESSAY_VOTE,10);
         ChartsVo chartsVo = new ChartsVo();
         int index = list.size()-1;
         String[] category = new String[list.size()];
@@ -102,7 +111,8 @@ public class TourController {
     @RequestMapping("/hotViews")
     @ResponseBody
     public ServerResponse<ChartsVo> hotViews(){
-        List<HotEssayVo> list = iEssayService.getHotViewsEssay(10);
+//        List<HotEssayVo> list = iEssayService.getHotViewsEssay(10);
+        List<HotEssayVo> list = iEssayOpService.getHotEssaysByOpAndLimit(Const.EssayOp.ESSAY_VIEW,10);
         ChartsVo chartsVo = new ChartsVo();
         int index = list.size()-1;
         String[] category = new String[list.size()];

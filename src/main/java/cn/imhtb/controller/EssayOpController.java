@@ -2,6 +2,7 @@ package cn.imhtb.controller;
 
 import cn.imhtb.common.ServerResponse;
 import cn.imhtb.service.IEssayOpService;
+import cn.imhtb.service.IEssayService;
 import cn.imhtb.vo.ChartsVo;
 import cn.imhtb.vo.HotEssayVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import java.util.List;
 public class EssayOpController {
     @Autowired
     IEssayOpService iEssayOpService;
+    @Autowired
+    IEssayService iEssayService;
 
     /**
      * 获取近一个星期浏览剧增的文章
@@ -55,6 +58,10 @@ public class EssayOpController {
             data[index] = index==0?c.getNumber():c.getNumber()+data[index-1];
             index++;
         }
+
+        String essayTitle = list.size()>0?iEssayService.select(list.get(0).getId()).getCity():"城市名";
+        chartsVo.setTitleSubText(essayTitle);
+
         chartsVo.setCategory(category);
         chartsVo.setData(data);
         return ServerResponse.createBySuccess(chartsVo);
@@ -98,6 +105,9 @@ public class EssayOpController {
             data[index] = index==0?c.getNumber():c.getNumber()+data[index-1];
             index++;
         }
+        String essayTitle = list.size()>0?iEssayService.select(list.get(0).getId()).getCity():"城市名";
+        chartsVo.setTitleSubText(essayTitle);
+
         chartsVo.setCategory(category);
         chartsVo.setData(data);
         return ServerResponse.createBySuccess(chartsVo);
@@ -140,6 +150,9 @@ public class EssayOpController {
             data[index] = index==0?c.getNumber():c.getNumber()+data[index-1];
             index++;
         }
+        String essayTitle = list.size()>0?iEssayService.select(list.get(0).getId()).getCity():"城市名";
+        chartsVo.setTitleSubText(essayTitle);
+
         chartsVo.setCategory(category);
         chartsVo.setData(data);
         return ServerResponse.createBySuccess(chartsVo);

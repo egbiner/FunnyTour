@@ -33,7 +33,9 @@ public class EssayController {
 
     @RequestMapping(value = "{id}",method = RequestMethod.GET)
     public String showById(@PathVariable("id")Integer id, Model model,HttpSession session){
-        iEssayOpService.add(new EssayOp(id,Const.EssayOp.ESSAY_VIEW));
+//        iEssayOpService.add(new EssayOp(id,Const.EssayOp.ESSAY_VIEW));
+        //TODO
+        //iEssayService.updateView(id);
 
         EssayVo essayVo = iEssayService.select(id);
         List<CommentVo> commentVo = iCommentService.listAllCommentVoByEssayId(essayVo.getId(),session);
@@ -45,12 +47,13 @@ public class EssayController {
     @RequestMapping(value = "vote")
     @ResponseBody
     public ServerResponse<String> voteById(Integer id,HttpSession session){
-        iEssayOpService.add(new EssayOp(id,Const.EssayOp.ESSAY_VOTE));
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user==null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"请登录后再尝试");
         }
-        return iEssayService.vote(id);
+        EssayOp essayOp = new EssayOp(id,Const.EssayOp.ESSAY_VOTE);
+        essayOp.setUserId(user.getId());
+        return iEssayOpService.add(essayOp);
     }
 
     @RequestMapping(value = "/",method = RequestMethod.GET)

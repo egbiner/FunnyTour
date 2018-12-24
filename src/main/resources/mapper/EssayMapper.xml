@@ -230,4 +230,7 @@
     <update id="vote" parameterType="int">
       UPDATE tmt_essay SET vote = vote + 1 WHERE id = #{id}
     </update>
+  <update id="updateViewByEssayId">
+    UPDATE tmt_essay set view = view + 1 WHERE id = #{essayId}
+  </update>
 </mapper>

@@ -51,6 +51,7 @@ public class CommentServiceImpl implements ICommentService {
             Essay essay = essayMapper.selectByPrimaryKey(id);
             User current_user = (User) session.getAttribute(Const.CURRENT_USER);
             if (current_user==null){
+                commentVo.setBooleanCurrentUserAuthor(false);
                 commentVo.setBooleanAuthor(false);
                 commentVo.setBooleanFloorHost(false);
             }else if (current_user.getId().equals(essay.getUserId())){
