@@ -27,7 +27,9 @@ public interface IEssayService {
 
     ServerResponse<List<CityVo>> getTopHotCitiesData();
 
-    List<EssayVo> selectAllVo();
+//    List<EssayVo> selectAllVo();
+
+    List<EssayVo> selectAllVoWithLimit(Integer limitCount);
 
     List<HotEssayVo> getHotVotesEssay(int i);
 
@@ -36,4 +38,5 @@ public interface IEssayService {
     ServerResponse<String> vote(Integer id);
 
     ServerResponse<String> updateView(Integer essayId);
+
 }

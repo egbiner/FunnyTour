@@ -19,4 +19,6 @@ public interface IEssayOpService {
     List<HotEssayVo> getHotEssaysByOpAndLimit(int essayOp, int limit);
 
     List<HotEssayVo> getHotEssaysVoByOpAndLimit(int essayOp, int limit);
+
+    Boolean checkOp(int essayId, int essayOp, int userId);
 }

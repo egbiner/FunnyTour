@@ -36,8 +36,13 @@ public class EssayController {
 //        iEssayOpService.add(new EssayOp(id,Const.EssayOp.ESSAY_VIEW));
         //TODO
         //iEssayService.updateView(id);
-
         EssayVo essayVo = iEssayService.select(id);
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user!=null){
+            essayVo.setBooleanVote(iEssayOpService.checkOp(essayVo.getId(),Const.EssayOp.ESSAY_VOTE,user.getId()));
+        }else{
+            essayVo.setBooleanVote(false);
+        }
         List<CommentVo> commentVo = iCommentService.listAllCommentVoByEssayId(essayVo.getId(),session);
         model.addAttribute("essay",essayVo);
         model.addAttribute("comments",commentVo);

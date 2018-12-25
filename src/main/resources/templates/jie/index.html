@@ -8,6 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="keywords" content="游记分享More">
   <meta name="description" content="游记分享More">
+  <script th:src="@{/res/js/jquery-3.3.1.js}"></script>
   <link rel="stylesheet" href="../../res/layui/css/layui.css" th:href="@{/res/layui/css/layui.css}">
   <link rel="stylesheet" href="../../res/css/global.css" th:href="@{/res/css/global.css}">
 </head>
@@ -33,7 +34,7 @@
 </div>
 
 <div class="layui-container">
-  <div class="layui-row layui-col-space15">
+  <div class="layui-row layui-col-space15" style="width: 1000px;margin: 0 auto">
     <div class="layui-col-md15">
       <div class="fly-panel" style="margin-bottom: 0;">
         
@@ -90,26 +91,25 @@
                 -->
               </a>
               <span th:text="${#dates.format(essay.createTime,'yyyy-MM-dd HH:mm')}">刚刚</span>
-
-              <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>
+              <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> [[${essay.view}]]</span>
               <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
               <span class="fly-list-nums">
                 <i class="iconfont icon-pinglun1" title="回答"></i> [[${essay.commentNum}]]
               </span>
             </div>
             <div class="fly-list-badge">
-              <span class="layui-badge layui-bg-black">置顶</span>
+              <!--<span class="layui-badge layui-bg-black">置顶</span>-->
               <!--<span class="layui-badge layui-bg-red">精帖</span>-->
             </div>
           </li>
-
-
         </ul>
         
         <!-- <div class="fly-none">没有相关数据</div> -->
     
         <div style="text-align: center">
-          <div class="laypage-main"><span class="laypage-curr">1</span><a href="/jie/page/2/">2</a><a href="/jie/page/3/">3</a><a href="/jie/page/4/">4</a><a href="/jie/page/5/">5</a><span>…</span><a href="/jie/page/148/" class="laypage-last" title="尾页">尾页</a><a href="/jie/page/2/" class="laypage-next">下一页</a></div>
+          <div class="laypage-main" id="pageNum" th:pageNum="${pageInfo.pageNum}">
+            <a onclick="page('pre')">上一页</a>
+            <a onclick="page('next')">下一页</a></div>
         </div>
 
       </div>
@@ -118,18 +118,23 @@
     </div>
   </div>
 </div>
-
-<div class="fly-footer">
-  <p><a href="http://fly.layui.com/" target="_blank">Fly社区</a> 2017 &copy; <a href="http://www.layui.com/" target="_blank">layui.com 出品</a></p>
-  <p>
-    <a href="http://fly.layui.com/jie/3147/" target="_blank">付费计划</a>
-    <a href="http://www.layui.com/template/fly/" target="_blank">获取Fly社区模版</a>
-    <a href="http://fly.layui.com/jie/2461/" target="_blank">微信公众号</a>
-  </p>
-</div>
+<div th:replace="index::fra_footbar"></div>
 
 <script src="../../res/layui/layui.js" th:href="@{/res/layui/layui.js}"></script>
-<script>
+<script >
+  var page = $("#pageNum").attr("pageNum");
+  var nextPage = parseInt(page) +1;
+  var prePage = parseInt(page) -1;
+  window.page = function(action) {
+      if(action=='pre'){
+          location.href = "/more?page="+prePage;
+      }else if(action=='next'){
+          location.href = "/more?page="+nextPage;
+      }else{
+          alert(action);
+      }
+  }
+  
 layui.cache.page = 'jie';
 layui.cache.user = {
   username: '游客'
@@ -144,6 +149,21 @@ layui.config({
 }).extend({
   fly: 'index'
 }).use('fly');
+
+var pageNext = 1;
+var isEnd = false;
+$(window).scroll(function() {
+    if (isEnd == true) {
+        return;
+    }
+    if ($(document).scrollTop() + 50 >= $(document).height() - $(window).height()) {
+        isEnd = true;
+        setTimeout(function() {
+//            selectLogByDate(pageNext, $('#start').val(), $('#end').val());
+            console.log("翻页了");
+        }, 500);
+    }
+});
 </script>
 
 </body>

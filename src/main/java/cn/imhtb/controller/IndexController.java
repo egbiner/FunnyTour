@@ -9,13 +9,18 @@ import cn.imhtb.service.IUserService;
 import cn.imhtb.utils.BaiduMapPointUtils;
 import cn.imhtb.vo.BaiduLocation;
 import cn.imhtb.vo.EssayVo;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,34 +34,11 @@ public class IndexController {
     @Autowired
     IUserService iUserService;
 
-//    @RequestMapping("/")
-//    public String index(Model model){
-//        model.addAttribute(Const.CURRENT_USER,false);
-//        return "index";
-//    }
-//
-//    @RequestMapping("/user/login")
-//    public String login(){
-//        return "user/login";
-//    }
-//
-//    @RequestMapping("/point")
-//    @ResponseBody
-//    public List<Essay> point(){
-//        List<Essay> essays = iEssayService.selectAll();
-//        for (Essay e:essays) {
-//            System.out.println(e.getPosition());
-//        }
-//        return essays;
-//    }
-
     @RequestMapping("/")
-    public String index(HttpSession session,Model model)
+    public String index(Model model)
     {
-//        ServerResponse<User> serverResponse = iUserService.login("admin", "admin");
-//        ServerResponse<User> serverResponse = iUserService.login("user", "user");
-        List<EssayVo> essayVos = iEssayService.selectAllVo();
-//        session.setAttribute(Const.CURRENT_USER,serverResponse.getData());
+//        List<EssayVo> essayVos = iEssayService.selectAllVo();
+        List<EssayVo> essayVos = iEssayService.selectAllVoWithLimit(10);
         model.addAttribute("essays",essayVos);
         return "index";
     }
@@ -67,9 +49,14 @@ public class IndexController {
     }
 
     @RequestMapping("/more")
-    public String to_more(Model model){
-        List<EssayVo> list = iEssayService.selectAllVo();
+    public String to_more(@RequestParam(value = "page",defaultValue = "1") Integer page,@RequestParam(value = "limit",defaultValue = "10") Integer limit, Model model){
+        PageHelper.startPage(page,limit);
+        List<EssayVo> list = iEssayService.selectAllVoWithLimit(null);
+        //TODO 优化
+        PageHelper.startPage(page,limit);
+        PageInfo<Essay> pageInfo = new PageInfo<>(iEssayService.selectAll());
         model.addAttribute("essays",list);
+        model.addAttribute("pageInfo",pageInfo);
         return "jie/index";
     }
 

@@ -33,7 +33,7 @@
   <select id="selectOpCountByEssayIdAndOp" resultType="java.lang.Integer">
     SELECT COUNT(*) FROM (select essay_id from tmt_essayop where essay_id = #{essayId} and essay_op = #{essayOp} ) t
   </select>
-  <select id="checkVote" resultType="java.lang.Integer">
+  <select id="checkOp" resultType="java.lang.Integer">
     SELECT count(*) FROM tmt_essayop where user_id = #{userId} and essay_id = #{essayId} and essay_op = #{essayOp}
   </select>
   <select id="selectHotEssaysByOpAndLimit" resultType="cn.imhtb.vo.HotEssayVo">

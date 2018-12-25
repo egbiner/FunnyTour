@@ -28,7 +28,8 @@ public interface EssayOpMapper {
 
     int selectOpCountByEssayIdAndOp(@Param("essayId")Integer essayId,@Param("essayOp") int essayOp);
 
-    int checkVote(@Param("essayId") Integer essayId,@Param("essayOp") Integer essayOp,@Param("userId") Integer userId);
+    int checkOp(@Param("essayId") Integer essayId,@Param("essayOp") Integer essayOp,@Param("userId") Integer userId);
 
     List<HotEssayVo> selectHotEssaysByOpAndLimit(@Param("essayOp")int essayOp,@Param("limit") int limit);
+
 }

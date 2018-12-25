@@ -31,13 +31,13 @@
   <select id="selectAll" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from tmt_essay
+    from tmt_essay order by id desc
   </select>
     <select id="selectByUserIdWithSelective" resultMap="BaseResultMap">
       select
       <include refid="Base_Column_List" />
       from tmt_essay
-      where user_id = #{userId}
+      where user_id = #{userId} order by id desc
       <if test="count != null">
         LIMIT #{count}
       </if>
@@ -54,7 +54,16 @@
   <select id="selectHotViewsEssay" resultType="cn.imhtb.vo.HotEssayVo">
       select id,view number,title,city  from tmt_essay order by view desc limit #{limit}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectWithLimit" resultType="cn.imhtb.pojo.Essay">
+      select
+      <include refid="Base_Column_List" />
+      from tmt_essay
+      order by id desc
+      <if test="limit !=null ">
+        LIMIT #{limit}
+      </if>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tmt_essay
     where id = #{id,jdbcType=INTEGER}
   </delete>

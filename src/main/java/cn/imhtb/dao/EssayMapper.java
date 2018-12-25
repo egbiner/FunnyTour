@@ -37,4 +37,6 @@ public interface EssayMapper {
     int vote(Integer id);
 
     int updateViewByEssayId(Integer essayId);
+
+    List<Essay> selectWithLimit(@Param("limit") Integer limit);
 }

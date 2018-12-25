@@ -43,4 +43,6 @@ public class EssayVo implements Serializable{
     private String city;
 
     private Integer commentNum;
+
+    private Boolean booleanVote;
 }

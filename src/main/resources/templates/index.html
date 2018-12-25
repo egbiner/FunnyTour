@@ -65,7 +65,7 @@
 </div>
 
 <div class="fly-panel fly-column" th:fragment="fra_nav(nav_name)">
-  <div class="layui-container">
+  <div class="layui-container" style="width: 1000px">
     <ul class="layui-clear">
       <li class="layui-hide-xs layui-this" th:class="${nav_name==null || nav_name =='index'}?'layui-hide-xs layui-this':'layui-hide-xs'"><a href="/">首页<span class="layui-badge-dot" th:if="${nav_name==null}"></span></a></li>
       <li  th:class="${nav_name=='more'?'layui-hide-xs layui-this':'layui-hide-xs'}"><a href="jie/index.html" th:href="@{/more}">更多<span class="layui-badge-dot" th:if="${nav_name=='more'}"></span></a></li>
@@ -82,7 +82,7 @@
 </div>
 
 <div class="layui-container">
-  <div class="layui-row layui-col-space15">
+  <div class="layui-row layui-col-space15" style="width: 1000px;margin: 0 auto;">
     <div class="layui-col-md15">
       <div class="fly-panel">
         <div class="fly-panel-title fly-filter">
@@ -183,7 +183,7 @@
               </a>
               <span th:text="${#dates.format(e.createTime,'yyyy-MM-dd HH:mm')}">刚刚</span>
 
-              <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>
+              <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> [[${e.view}]]</span>
               <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
               <span class="fly-list-nums">
                 <i class="iconfont icon-pinglun1" title="回答"></i> [[${e.commentNum}]]
@@ -212,11 +212,11 @@
 </div>
 
 <div class="fly-footer" th:fragment="fra_footbar">
-  <p><a href="http://fly.layui.com/" target="_blank">Fly社区</a> 2017 &copy; <a href="http://www.layui.com/" target="_blank">layui.com 出品</a></p>
+  <p><a href="http://www.imhtb.cn" target="_blank">tomato</a> 2019 &copy; <a href="http://www.layui.com/" target="_blank">imhtb.cn 出品</a></p>
   <p>
-    <a href="http://fly.layui.com/jie/3147/" target="_blank">付费计划</a>
-    <a href="http://www.layui.com/template/fly/" target="_blank">获取Fly社区模版</a>
-    <a href="http://fly.layui.com/jie/2461/" target="_blank">微信公众号</a>
+    <a href="http://www.imhtb.cn" target="_blank">QQ</a>
+    <a href="http://www.imhtb.cn" target="_blank">GitHub</a>
+    <a href="http://www.imhtb.cn" target="_blank">码云</a>
   </p>
 </div>
  

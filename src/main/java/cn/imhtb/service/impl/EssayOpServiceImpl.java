@@ -25,8 +25,7 @@ public class EssayOpServiceImpl implements IEssayOpService {
     public ServerResponse<String> add(EssayOp essayOp) {
         //用户是否点赞过了
         if (essayOp.getEssayOp().equals(Const.EssayOp.ESSAY_VOTE)){
-            int count = essayOpMapper.checkVote(essayOp.getEssayId(),essayOp.getEssayOp(),essayOp.getUserId());
-            if (count>0){
+            if (checkOp(essayOp.getEssayId(),essayOp.getEssayOp(),essayOp.getUserId())){
                 return ServerResponse.createByErrorMessage("您已经投过票咯");
             }
         }
@@ -36,6 +35,12 @@ public class EssayOpServiceImpl implements IEssayOpService {
             return ServerResponse.createBySuccessMessage("操作成功");
         }
         return ServerResponse.createByErrorMessage("操作失败");
+    }
+
+    @Override
+    public Boolean checkOp(int essayId,int essayOp,int userId){
+        int count = essayOpMapper.checkOp(essayId,essayOp,userId);
+        return count > 0;
     }
 
     @Override

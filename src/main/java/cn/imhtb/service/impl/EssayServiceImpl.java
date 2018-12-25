@@ -13,6 +13,8 @@ import cn.imhtb.service.IEssayService;
 import cn.imhtb.vo.CityVo;
 import cn.imhtb.vo.EssayVo;
 import cn.imhtb.vo.HotEssayVo;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -110,9 +112,33 @@ public class EssayServiceImpl implements IEssayService {
         return ServerResponse.createBySuccess(list);
     }
 
+//    @Override
+//    public List<EssayVo> selectAllVo() {
+//        List<Essay> list = essayMapper.selectAll();
+//        List<EssayVo> listVo = new ArrayList<>();
+//        for (Essay e:list) {
+//            User user = userMapper.selectByPrimaryKey(e.getUserId());
+//            EssayVo essayVo = new EssayVo();
+//            essayVo.setId(e.getId());
+//            essayVo.setTitle(e.getTitle());
+//            essayVo.setContent(e.getContent());
+//            essayVo.setCreateTime(e.getCreateTime());
+//
+//            essayVo.setUserAvatar(user.getAvatar());
+//            essayVo.setUsername(user.getName());
+//            essayVo.setUserId(e.getUserId());
+//
+//            essayVo.setCommentNum(commentMapper.selectCountByEssayId(e.getId()));
+//            essayVo.setView(e.getView());
+//
+//            listVo.add(essayVo);
+//        }
+//        return listVo;
+//    }
+
     @Override
-    public List<EssayVo> selectAllVo() {
-        List<Essay> list = essayMapper.selectAll();
+    public List<EssayVo> selectAllVoWithLimit(Integer limit) {
+        List<Essay> list = essayMapper.selectWithLimit(limit);
         List<EssayVo> listVo = new ArrayList<>();
         for (Essay e:list) {
             User user = userMapper.selectByPrimaryKey(e.getUserId());
@@ -127,7 +153,8 @@ public class EssayServiceImpl implements IEssayService {
             essayVo.setUserId(e.getUserId());
 
             essayVo.setCommentNum(commentMapper.selectCountByEssayId(e.getId()));
-            essayVo.setView(e.getView());
+            int viewCount = essayOpMapper.selectOpCountByEssayIdAndOp(e.getId(), Const.EssayOp.ESSAY_VIEW);
+            essayVo.setView(viewCount);
 
             listVo.add(essayVo);
         }
