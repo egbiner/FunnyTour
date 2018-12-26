@@ -30,6 +30,7 @@ public class UserServiceImpl implements IUserService {
         user.setCreateTime(new Date());
         user.setRole(Const.Role.ROLE_CUSTOMER);
         user.setUpdateTime(new Date());
+        user.setLevel(1);
         //TODO CheckValid
         int count = userMapper.insert(user);
         if (count>0){
@@ -42,5 +43,19 @@ public class UserServiceImpl implements IUserService {
     @Override
     public User getInfoById(Integer uid) {
         return userMapper.selectPartInfoByPrimaryKey(uid);
+    }
+
+    @Override
+    public ServerResponse<User> update(User user) {
+        user.setUpdateTime(new Date());
+        user.setLevel(null);
+        user.setPassword(null);
+        user.setRole(null);
+        int count = userMapper.updateByPrimaryKeySelective(user);
+        if (count>0){
+            return ServerResponse.createBySuccessMessage("更新成功");
+        }else {
+            return ServerResponse.createByErrorMessage("更新失败");
+        }
     }
 }

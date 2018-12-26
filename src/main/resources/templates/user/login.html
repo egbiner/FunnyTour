@@ -27,7 +27,7 @@
           <div class="layui-form layui-form-pane">
             <form id="login_form" method="post">
               <div class="layui-form-item">
-                <label for="L_username" class="layui-form-label">邮箱</label>
+                <label for="L_username" class="layui-form-label">用户名</label>
                 <div class="layui-input-inline">
                   <input type="text" id="L_username" name="username" required lay-verify="required" autocomplete="off" class="layui-input">
                 </div>
@@ -38,13 +38,14 @@
                   <input type="password" id="L_password" name="password" required lay-verify="required" autocomplete="off" class="layui-input">
                 </div>
               </div>
-              <div class="layui-form-item">
+            </form>
+
+            <div class="layui-form-item">
                 <button class="layui-btn" id="login-btn" >立即登录</button>
                 <span style="padding-left:20px;">
                   <a href="forget.html" th:href="@{/forget}">忘记密码？</a>
                 </span>
               </div>
-            </form>
           </div>
         </div>
       </div>
@@ -78,21 +79,26 @@ layui.config({
   fly: 'index'
 }).use('fly');
 
-$("#login-btn").click(function () {
-    $.ajax({
-        url:'/user/login',
-        type:'post',
-        data:$("#login_form").serialize(),
-        dataType:'json',
-        success:function (res) {
-            if(res.status===0)
-                location.href="/user/home";
-            else{
-                layer.msg(res);
+layui.use('layer', function(){
+    var layer = layui.layer;
+    $("#login-btn").click(function () {
+        $.ajax({
+            url:'/user/login',
+            type:'post',
+            data:$("#login_form").serialize(),
+            dataType:'json',
+            success:function (res) {
+                console.log(res);
+                if(res.status===0)
+                    location.href="/user/home";
+                else{
+                    layer.msg(res.msg);
+                }
             }
-        }
+        });
     });
 });
+
 
 </script>
 

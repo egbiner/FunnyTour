@@ -75,7 +75,7 @@
             <!--</div>-->
           <!--</li>-->
           <li th:each="essay:${essays}">
-            <a href="user/home.html" class="fly-avatar">
+            <a  th:href="@{'/user/home/'+${essay.userId}}" class="fly-avatar">
               <img th:src="@{${essay.userAvatar}}" src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
             </a>
             <h2>
@@ -83,7 +83,7 @@
               <a href="detail.html" th:href="@{'/essay/'+${essay.id}}" th:text="${essay.title}">基于 layui 的极简社区页面模版</a>
             </h2>
             <div class="fly-list-info">
-              <a href="user/home.html" link>
+              <ath:href="@{'/user/home/'+${essay.userId}}" link>
                 <cite th:text="${essay.username}">贤心</cite>
                 <!--
                 <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
@@ -133,7 +133,7 @@
       }else{
           alert(action);
       }
-  }
+  };
   
 layui.cache.page = 'jie';
 layui.cache.user = {

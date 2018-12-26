@@ -9,6 +9,7 @@
   <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
   <link rel="stylesheet" href="../../res/layui/css/layui.css" th:href="@{/res/layui/css/layui.css}">
   <link rel="stylesheet" href="../../res/css/global.css" th:href="@{/res/css/global.css}">
+  <script th:src="@{/res/js/jquery-3.3.1.js}"></script>
 </head>
 <body>
 
@@ -24,37 +25,38 @@
       <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
         <div class="layui-tab-item layui-show">
           <div class="layui-form layui-form-pane">
-            <form method="post">
+            <form method="post" id="reg-form">
               <div class="layui-form-item">
-                <label for="L_email" class="layui-form-label">邮箱</label>
+                <label  class="layui-form-label">用户名</label>
                 <div class="layui-input-inline">
-                  <input type="text" id="L_email" name="email" required lay-verify="email" autocomplete="off" class="layui-input">
+                  <input type="text" name="username" required lay-verify="email" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">将会成为您唯一的登入名</div>
               </div>
               <div class="layui-form-item">
-                <label for="L_username" class="layui-form-label">昵称</label>
+                <label  class="layui-form-label">昵称</label>
                 <div class="layui-input-inline">
-                  <input type="text" id="L_username" name="username" required lay-verify="required" autocomplete="off" class="layui-input">
+                  <input type="text" name="name" required lay-verify="required" autocomplete="off" class="layui-input">
                 </div>
               </div>
               <div class="layui-form-item">
                 <label for="L_pass" class="layui-form-label">密码</label>
                 <div class="layui-input-inline">
-                  <input type="password" id="L_pass" name="pass" required lay-verify="required" autocomplete="off" class="layui-input">
+                  <input type="password" id="L_pass" name="password" required lay-verify="required" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">6到16个字符</div>
               </div>
-              <div class="layui-form-item">
-                <label for="L_repass" class="layui-form-label">确认密码</label>
-                <div class="layui-input-inline">
-                  <input type="password" id="L_repass" name="repass" required lay-verify="required" autocomplete="off" class="layui-input">
-                </div>
-              </div>
-              <div class="layui-form-item">
-                <button class="layui-btn" lay-filter="*" lay-submit>立即注册</button>
-              </div>
+              <!--<div class="layui-form-item">-->
+                <!--<label for="L_repass" class="layui-form-label">确认密码</label>-->
+                <!--<div class="layui-input-inline">-->
+                  <!--<input type="password" id="L_repass" name="repass" required lay-verify="required" autocomplete="off" class="layui-input">-->
+                <!--</div>-->
+              <!--</div>-->
             </form>
+
+            <div class="layui-form-item">
+                <button class="layui-btn" id="reg-btn">立即注册</button>
+              </div>
           </div>
         </div>
       </div>
@@ -88,6 +90,29 @@ layui.config({
 }).extend({
   fly: 'index'
 }).use('fly');
+layui.use('layer', function(){
+    var layer = layui.layer;
+    $("#reg-btn").click(function () {
+        $.ajax({
+            url:'/user/register',
+            type:'post',
+            data:$("#reg-form").serialize(),
+            dataType:'json',
+            success:function (res) {
+                if(res.status===0){
+                    layer.confirm(res.msg, {
+                        btn: ['确定']
+                    }, function(){
+                        location.href="/user/home";
+                    });
+                }
+                else{
+                    layer.msg(res.msg);
+                }
+            }
+        });
+    });
+});
 </script>
 
 </body>

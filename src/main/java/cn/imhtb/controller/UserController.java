@@ -89,13 +89,18 @@ public class UserController {
 
     @RequestMapping(value = "edit",method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<User> edit(HttpSession session){
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
-        if (user==null){
+    public ServerResponse<User> edit(HttpSession session,User user){
+        User u = (User) session.getAttribute(Const.CURRENT_USER);
+        if (u==null){
             return ServerResponse.createByErrorMessage("用户未登录");
         }else{
-//            return ServerResponse.createBySuccess(user);
-            return ServerResponse.createBySuccessMessage("修改成功");
+            user.setId(u.getId());
+            ServerResponse<User> serverResponse = iUserService.update(user);
+            if (serverResponse.isSuccess()){
+                u = iUserService.getInfoById(u.getId());
+                session.setAttribute(Const.CURRENT_USER,u);
+            }
+            return serverResponse;
         }
     }
 }

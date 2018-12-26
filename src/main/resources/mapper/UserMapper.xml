@@ -34,7 +34,7 @@
     </select>
     <select id="selectPartInfoByPrimaryKey" resultType="cn.imhtb.pojo.User">
       select
-      id, username, role, email, create_time, update_time, name, level,
+      id, username, role,phone, email, create_time, update_time, name, level,
     introduce, sex, avatar
       from tmt_user
       where id = #{id,jdbcType=INTEGER}

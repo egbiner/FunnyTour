@@ -10,4 +10,6 @@ public interface IUserService {
     ServerResponse<String> register(User user);
 
     User getInfoById(Integer uid);
+
+    ServerResponse<User> update(User user);
 }

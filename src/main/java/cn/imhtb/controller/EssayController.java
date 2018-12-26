@@ -33,7 +33,7 @@ public class EssayController {
 
     @RequestMapping(value = "{id}",method = RequestMethod.GET)
     public String showById(@PathVariable("id")Integer id, Model model,HttpSession session){
-//        iEssayOpService.add(new EssayOp(id,Const.EssayOp.ESSAY_VIEW));
+        iEssayOpService.add(new EssayOp(id,Const.EssayOp.ESSAY_VIEW));
         //TODO
         //iEssayService.updateView(id);
         EssayVo essayVo = iEssayService.select(id);
