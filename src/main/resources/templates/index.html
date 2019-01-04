@@ -6,8 +6,8 @@
   <meta charset="utf-8">
   <title>旅游热点分析</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="fly,layui,前端社区">
-  <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
+  <meta name="keywords" content="旅游分析">
+  <meta name="description" content="旅游分析网站">
   <link rel="stylesheet" href="../res/layui/css/layui.css" th:href="@{/res/layui/css/layui.css}">
   <link rel="stylesheet" href="../res/css/global.css" th:href="@{/res/css/global.css}">
 </head>
@@ -48,7 +48,7 @@
        <li class="layui-nav-item" th:if="${session.currentUser}">
           <a class="fly-nav-avatar" href="javascript:;">
             <cite class="layui-hide-xs" >[[${session.currentUser.name}]]</cite>
-            <i class="iconfont icon-renzheng layui-hide-xs" title="认证信息：layui 作者"></i>
+            <i class="iconfont icon-renzheng layui-hide-xs" title="tomato"></i>
             <i class="layui-badge fly-badge-vip layui-hide-xs">VIP[[${session.currentUser.level}]]</i>
             <img th:src="@{${session.currentUser.avatar}}" src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg">
           </a>
@@ -89,7 +89,7 @@
           <span class="fly-mid"></span>
           <a>置顶</a>
           <span class="fly-mid"></span>
-          <a href="#signin" class="layui-hide-sm layui-show-xs-block fly-right" id="LAY_goSignin" style="color: #FF5722;">去签到</a>
+          <!--<a href="#signin" class="layui-hide-sm layui-show-xs-block fly-right" id="LAY_goSignin" style="color: #FF5722;">去签到</a>-->
         </div>
         <ul class="fly-list">
           <li>
@@ -98,10 +98,10 @@
             </a>
             <h2>
               <a class="layui-badge">置顶</a>
-              <a href="jie/detail.html">软件工程课设</a>
+              <a href="#">软件工程课设</a>
             </h2>
             <div class="fly-list-info">
-              <a href="user/home.html" link>
+              <a href="user/home/1" link>
                 <cite>tomato</cite>
                 <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
                 <i class="layui-badge fly-badge-vip">VIP3</i>

@@ -7,6 +7,7 @@ import cn.imhtb.pojo.User;
 import cn.imhtb.service.IEssayService;
 import cn.imhtb.service.IUserService;
 import cn.imhtb.utils.BaiduMapPointUtils;
+import cn.imhtb.vo.AttractionVo;
 import cn.imhtb.vo.BaiduLocation;
 import cn.imhtb.vo.EssayVo;
 import com.github.pagehelper.PageHelper;
@@ -98,14 +99,24 @@ public class IndexController {
         return "jie/add";
     }
 
+    /**
+     * 热力图数据
+     * @return
+     */
     @RequestMapping("/points")
     @ResponseBody
     public Object[] points(){
         List<BaiduLocation> baiduLocations = new ArrayList<>();
-        List<Essay> essays = iEssayService.selectAll();
-        for (Essay e:essays) {
-            BaiduLocation baiduLocation = BaiduMapPointUtils.getBaiduLocation(Const.BAIDU_GET_POINT_URL_PREFIX+e.getPosition()+Const.BAIDU_GET_POINT_URL_SUFFIX+Const.BAIDU_AK);
-            baiduLocation.setCount((int)(Math.random()*100));
+//        List<Essay> essays = iEssayService.selectAll();
+//        for (Essay e:essays) {
+//            BaiduLocation baiduLocation = BaiduMapPointUtils.getBaiduLocation(Const.BAIDU_GET_POINT_URL_PREFIX+e.getPosition()+Const.BAIDU_GET_POINT_URL_SUFFIX+Const.BAIDU_AK);
+//            baiduLocation.setCount((int)(Math.random()*100));
+//            baiduLocations.add(baiduLocation);
+//        }
+        List<AttractionVo> attractionVoList = iEssayService.getAttractionDataOrderByCount(null).getData();
+        for (AttractionVo a:attractionVoList) {
+            BaiduLocation baiduLocation = BaiduMapPointUtils.getBaiduLocation(Const.BAIDU_GET_POINT_URL_PREFIX+a.getName()+Const.BAIDU_GET_POINT_URL_SUFFIX+Const.BAIDU_AK);
+            baiduLocation.setCount(a.getValue()*50);
             baiduLocations.add(baiduLocation);
         }
         return baiduLocations.toArray();

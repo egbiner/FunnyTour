@@ -46,7 +46,7 @@
       select count(*) from tmt_essay where user_id = #{userId}
   </select>
     <select id="selectTopHotCities" resultType="cn.imhtb.vo.CityVo">
-      select city name,count(*) number from tmt_essay GROUP BY city ORDER BY number desc limit #{limit}
+      select city name,count(*) value from tmt_essay GROUP BY city ORDER BY value desc limit #{limit}
     </select>
   <select id="selectHotVotesEssay" resultType="cn.imhtb.vo.HotEssayVo">
       select id,vote number,title,city  from tmt_essay order by vote desc limit #{limit}
@@ -63,7 +63,16 @@
         LIMIT #{limit}
       </if>
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <select id="selectTopHotCitiesAttractionData" resultType="cn.imhtb.vo.AttractionVo">
+     SELECT city cityName,position name,COUNT(*) value FROM tmt_essay where city = #{city} GROUP BY city,position ORDER BY VALUE DESC limit #{limit}
+  </select>
+  <select id="selectAttractionDataOrderByCount" resultType="cn.imhtb.vo.AttractionVo">
+    SELECT position name,COUNT(*) VALUE FROM tmt_essay GROUP BY position ORDER BY VALUE DESC
+    <if test="limit != null">
+      limit = #{limit}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tmt_essay
     where id = #{id,jdbcType=INTEGER}
   </delete>

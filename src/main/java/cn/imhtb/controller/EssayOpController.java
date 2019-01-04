@@ -40,7 +40,7 @@ public class EssayOpController {
             index++;
         }
         chartsVo.setCategory(category);
-        chartsVo.setData(data);
+        chartsVo.setValue(data);
         return ServerResponse.createBySuccess(chartsVo);
     }
 
@@ -63,7 +63,7 @@ public class EssayOpController {
         chartsVo.setTitleSubText(essayTitle);
 
         chartsVo.setCategory(category);
-        chartsVo.setData(data);
+        chartsVo.setValue(data);
         return ServerResponse.createBySuccess(chartsVo);
     }
 
@@ -87,7 +87,7 @@ public class EssayOpController {
             index++;
         }
         chartsVo.setCategory(category);
-        chartsVo.setData(data);
+        chartsVo.setValue(data);
         return ServerResponse.createBySuccess(chartsVo);
     }
 
@@ -109,7 +109,7 @@ public class EssayOpController {
         chartsVo.setTitleSubText(essayTitle);
 
         chartsVo.setCategory(category);
-        chartsVo.setData(data);
+        chartsVo.setValue(data);
         return ServerResponse.createBySuccess(chartsVo);
     }
 
@@ -132,7 +132,7 @@ public class EssayOpController {
             index++;
         }
         chartsVo.setCategory(category);
-        chartsVo.setData(data);
+        chartsVo.setValue(data);
         return ServerResponse.createBySuccess(chartsVo);
     }
 
@@ -154,7 +154,7 @@ public class EssayOpController {
         chartsVo.setTitleSubText(essayTitle);
 
         chartsVo.setCategory(category);
-        chartsVo.setData(data);
+        chartsVo.setValue(data);
         return ServerResponse.createBySuccess(chartsVo);
     }
 }

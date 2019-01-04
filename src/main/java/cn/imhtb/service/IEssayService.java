@@ -3,6 +3,7 @@ package cn.imhtb.service;
 
 import cn.imhtb.common.ServerResponse;
 import cn.imhtb.pojo.Essay;
+import cn.imhtb.vo.AttractionVo;
 import cn.imhtb.vo.CityVo;
 import cn.imhtb.vo.EssayVo;
 import cn.imhtb.vo.HotEssayVo;
@@ -25,7 +26,7 @@ public interface IEssayService {
 
     int selectCountByUserId(Integer userId);
 
-    ServerResponse<List<CityVo>> getTopHotCitiesData();
+    ServerResponse<List<CityVo>> getTopHotCitiesData(Integer limit);
 
 //    List<EssayVo> selectAllVo();
 
@@ -39,4 +40,7 @@ public interface IEssayService {
 
     ServerResponse<String> updateView(Integer essayId);
 
+    ServerResponse<List<AttractionVo>> getTopHotCitiesAttractionData(String city,Integer limit);
+
+    ServerResponse<List<AttractionVo>> getAttractionDataOrderByCount(Integer limit);
 }

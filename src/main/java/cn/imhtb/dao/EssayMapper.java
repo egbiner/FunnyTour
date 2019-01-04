@@ -1,6 +1,7 @@
 package cn.imhtb.dao;
 
 import cn.imhtb.pojo.Essay;
+import cn.imhtb.vo.AttractionVo;
 import cn.imhtb.vo.CityVo;
 import cn.imhtb.vo.HotEssayVo;
 import org.apache.ibatis.annotations.Mapper;
@@ -39,4 +40,8 @@ public interface EssayMapper {
     int updateViewByEssayId(Integer essayId);
 
     List<Essay> selectWithLimit(@Param("limit") Integer limit);
+
+    List<AttractionVo> selectTopHotCitiesAttractionData(@Param("city") String cityName,@Param("limit") Integer limit);
+
+    List<AttractionVo> selectAttractionDataOrderByCount(@Param("limit") Integer limit);
 }

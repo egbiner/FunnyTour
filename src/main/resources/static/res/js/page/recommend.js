@@ -6,6 +6,8 @@ var hotViews = echarts.init(document.getElementById('hotViews'));
 var hotViewLeap = echarts.init(document.getElementById('hotViewLeap'));
 var hotVoteLeap = echarts.init(document.getElementById('hotVoteLeap'));
 var hotCommentLeap = echarts.init(document.getElementById('hotCommentLeap'));
+var wordCloudCity = echarts.init(document.getElementById('wordCloudCity'));
+var wordCloudAttraction = echarts.init(document.getElementById('wordCloudAttraction'));
 
 $.get('/hotCities').done(function(res){
     hotCities.hideLoading();
@@ -42,7 +44,7 @@ $.get('/hotCities').done(function(res){
             {
                 name: '热度',
                 type: 'bar',
-                data: res.data.data
+                data: res.data.value
             }
         ]
     });
@@ -81,7 +83,7 @@ $.get('/hotComments').done(function(res){
             {
                 name: '评论数',
                 type: 'bar',
-                data: res.data.data,
+                data: res.data.value,
                 itemStyle:{
                     normal:{
                         color:'#ac4332'
@@ -126,7 +128,7 @@ $.get('/hotVotes').done(function(res){
             {
                 name: '点赞数',
                 type: 'bar',
-                data: res.data.data,
+                data: res.data.value,
                 itemStyle:{
                     normal:{
                         color:'#1d689b'
@@ -170,7 +172,7 @@ $.get('/hotViews').done(function(res){
             {
                 name: '浏览数',
                 type: 'bar',
-                data: res.data.data,
+                data: res.data.value,
                 itemStyle:{
                     normal:{
                         color:'#1b8568'
@@ -184,7 +186,7 @@ $.get('/hotViews').done(function(res){
 $.get('/hotViewLeapSum').done(function(res){
     hotViewLeap.setOption({
         title : {
-            text: '本段时间内浏览量飙升最快',
+            text: '本段时间内浏览量飙升最快('+res.data.titleSubText+')',
             subtext: res.data.titleSubText
         },
         tooltip : {
@@ -218,7 +220,7 @@ $.get('/hotViewLeapSum').done(function(res){
             {
                 name:'浏览量',
                 type:'line',
-                data:res.data.data,
+                data:res.data.value,
                 markPoint : {
                     data : [
                         {type : 'max', name: '最大值'},
@@ -238,7 +240,7 @@ $.get('/hotViewLeapSum').done(function(res){
 $.get('/hotVoteLeapSum').done(function(res){
     hotVoteLeap.setOption({
         title : {
-            text: '本段时间内点赞量飙升最快',
+            text: '本段时间内点赞量飙升最快('+res.data.titleSubText+')',
             subtext: res.data.titleSubText
         },
         tooltip : {
@@ -272,7 +274,7 @@ $.get('/hotVoteLeapSum').done(function(res){
             {
                 name:'点赞量',
                 type:'line',
-                data:res.data.data,
+                data:res.data.value,
                 markPoint : {
                     data : [
                         {type : 'max', name: '最大值'},
@@ -293,7 +295,7 @@ $.get('/hotVoteLeapSum').done(function(res){
 $.get('/hotCommentLeapSum').done(function(res){
     hotCommentLeap.setOption({
         title : {
-            text: '本段时间内评论量飙升最快',
+            text: '本段时间内评论量飙升最快('+res.data.titleSubText+')',
             subtext: res.data.titleSubText
         },
         tooltip : {
@@ -327,7 +329,7 @@ $.get('/hotCommentLeapSum').done(function(res){
             {
                 name:'评论量',
                 type:'line',
-                data:res.data.data,
+                data:res.data.value,
                 markPoint : {
                     data : [
                         {type : 'max', name: '最大值'},
@@ -341,6 +343,91 @@ $.get('/hotCommentLeapSum').done(function(res){
                 }
             }
         ]
+    });
+
+
+
+});
+
+$.get('/hotCitiesList').done(function(res) {
+    wordCloudCity.setOption({
+        title: {
+            text: "热门城市词云图",
+            subtext: '前十城市',
+        },
+        tooltip: {},
+        series: [{
+            type: 'wordCloud',
+            gridSize: 20,
+            sizeRange: [12, 50],
+            rotationRange: [0, 0],
+            shape: 'circle',
+            textStyle: {
+                normal: {
+                    color: function () {
+                        return 'rgb(' + [
+                            Math.round(Math.random() * 160),
+                            Math.round(Math.random() * 160),
+                            Math.round(Math.random() * 160)
+                        ].join(',') + ')';
+                    }
+                },
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowColor: '#333'
+                }
+            },
+            data: res.data
+        }]
+    });
+});
+
+
+$.get('/hotCitiesAttractionList').done(function(res) {
+    wordCloudAttraction.setOption({
+        title: {
+            text: res.data[0].cityName + "热门城市景点词云图",
+            subtext: '前十景点'
+        },
+        tooltip: {},
+        series: [{
+            type: 'wordCloud',
+            gridSize: 20,
+            sizeRange: [12, 50],
+            rotationRange: [0, 0],
+            shape: 'circle',
+            textStyle: {
+                normal: {
+                    color: function () {
+                        return 'rgb(' + [
+                            Math.round(Math.random() * 160),
+                            Math.round(Math.random() * 160),
+                            Math.round(Math.random() * 160)
+                        ].join(',') + ')';
+                    }
+                },
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowColor: '#333'
+                }
+            },
+            data: res.data
+            //     [{
+            //     name: '象鼻山',
+            //     value: 10000,
+            //     textStyle: {
+            //         normal: {
+            //             color: 'black'
+            //         },
+            //         emphasis: {
+            //             color: 'red'
+            //         }
+            //     }
+            // }, {
+            //     name: '桂林',
+            //     value: 6181
+            // }]
+        }]
     });
 });
 

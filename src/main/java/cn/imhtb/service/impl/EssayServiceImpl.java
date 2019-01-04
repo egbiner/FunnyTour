@@ -10,6 +10,7 @@ import cn.imhtb.dao.UserMapper;
 import cn.imhtb.pojo.Essay;
 import cn.imhtb.pojo.User;
 import cn.imhtb.service.IEssayService;
+import cn.imhtb.vo.AttractionVo;
 import cn.imhtb.vo.CityVo;
 import cn.imhtb.vo.EssayVo;
 import cn.imhtb.vo.HotEssayVo;
@@ -107,8 +108,13 @@ public class EssayServiceImpl implements IEssayService {
         return essayMapper.selectCountByUserId(userId);
     }
 
-    public ServerResponse<List<CityVo>> getTopHotCitiesData() {
-        List<CityVo> list = essayMapper.selectTopHotCities(10);
+    /**
+     * 获取热门城市
+     * @param limit
+     * @return
+     */
+    public ServerResponse<List<CityVo>> getTopHotCitiesData(Integer limit) {
+        List<CityVo> list = essayMapper.selectTopHotCities(limit);
         return ServerResponse.createBySuccess(list);
     }
 
@@ -198,6 +204,30 @@ public class EssayServiceImpl implements IEssayService {
         }else {
             return ServerResponse.createByErrorMessage("更新失败");
         }
+    }
+
+    /**
+     * 获取最热城市的最热景点
+     */
+    @Override
+    public ServerResponse<List<AttractionVo>> getTopHotCitiesAttractionData(String city,Integer limit) {
+        String cityName = null;
+        if (city==null){
+            List<CityVo> cityVoList = essayMapper.selectTopHotCities(limit);
+            cityName = cityVoList.get(0).getName();
+            //TODO
+        }
+        List<AttractionVo> attractionVoList = essayMapper.selectTopHotCitiesAttractionData(cityName,limit);
+        return ServerResponse.createBySuccess("热门景点查询成功",attractionVoList);
+    }
+
+    /**
+     * 获取景点名及总数
+     */
+    @Override
+    public ServerResponse<List<AttractionVo>> getAttractionDataOrderByCount(Integer limit) {
+        List<AttractionVo> attractionVoList = essayMapper.selectAttractionDataOrderByCount(limit);
+        return ServerResponse.createBySuccess("获取景点及总数成功！",attractionVoList);
     }
 
 

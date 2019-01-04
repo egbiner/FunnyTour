@@ -8,5 +8,5 @@ public class ChartsVo {
     String titleSubText;
     String seriesName;
     String[] category;
-    Integer[] data;
+    Integer[] value;
 }
