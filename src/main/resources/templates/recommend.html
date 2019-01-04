@@ -76,7 +76,7 @@
                                             <tbody>
                                             <tr th:each="city,hotCitiesStat:${hotCities}">
                                                 <td>[[${hotCitiesStat.index}+1]]</td>
-                                                <td>[[${city.name}]]</td>
+                                                <td><a target="_blank" th:href="@{'https://baike.baidu.com/item/'+${city.name}}">[[${city.name}]]</a></td>
                                                 <td>[[${city.value}]]</td>
                                             </tr>
                                             </tbody>
@@ -129,7 +129,7 @@
                                             <tr th:each="essay,hotViewsStat:${hotViewsEssays}">
                                                 <td>[[${hotViewsStat.index}+1]]</td>
                                                 <td><a th:href="@{'/essay/'+${essay.id}}" target="_blank">[[${essay.title}]]</a></td>
-                                                <td>[[${essay.city}]]</td>
+                                                <td><a target="_blank" th:href="@{'https://baike.baidu.com/item/'+${essay.city}}">[[${essay.city}]]</a></td>
                                                 <td>[[${essay.number}]]</td>
                                             </tr>
                                             </tbody>
@@ -182,7 +182,7 @@
                                             <tr th:each="essay,hotVotessStat:${hotVotesEssays}">
                                                 <td>[[${hotVotessStat.index}+1]]</td>
                                                 <td><a th:href="@{'/essay/'+${essay.id}}" target="_blank">[[${essay.title}]]</a></td>
-                                                <td>[[${essay.city}]]</td>
+                                                <td><a target="_blank" th:href="@{'https://baike.baidu.com/item/'+${essay.city}}">[[${essay.city}]]</a></td>
                                                 <td>[[${essay.number}]]</td>
                                             </tr>
                                             </tbody>
@@ -235,7 +235,7 @@
                                             <tr th:each="essay,hotCommentsStat:${hotCommentsEssays}">
                                                 <td>[[${hotCommentsStat.index}+1]]</td>
                                                 <td><a th:href="@{'/essay/'+${essay.id}}" target="_blank">[[${essay.title}]]</a></td>
-                                                <td>[[${essay.city}]]</td>
+                                                <td><a target="_blank" th:href="@{'https://baike.baidu.com/item/'+${essay.city}}">[[${essay.city}]]</a></td>
                                                 <td>[[${essay.number}]]</td>
                                             </tr>
                                             </tbody>

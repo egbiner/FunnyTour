@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Random;
 
 @Controller
 @RequestMapping("/essay/")
@@ -85,18 +86,25 @@ public class EssayController {
     @RequestMapping("add_test")
     @ResponseBody
     public ServerResponse<String> addTest(){
+        String[] cities = { "张家口","廊坊","上海","南通","台州","温州","丽水","重庆","南充","吐鲁番","那曲","昆明","玉溪","张家界",
+                "惠州","汕尾","河源","云浮","桂林","钦州",
+                "海口","三亚"};
+        int length = cities.length;
+        int rand = new Random().nextInt(length-2)+1;
+        String[] titles = {"人在旅途，开启一段寻鲜之旅","冬季旅游最佳地，体会热门城市慢时光","一个来了就走不掉的城市","让我梦寐不忘的4天3晚美食之行",
+        "爱在夕阳黄昏下","在新旧交叠的空间里","寻觅舌尖心上的山城故事","探秘太湖原生态岛居生活","春天有哪些值得游玩景区","深秋的后坞生活","毛里求斯丨马克吐温说他是天堂原乡","赴一场三年之约","打卡湾区新地标，感受珠海最奢华"};
+
         String[] positions = {"林芝市","华北电力大学(保定二校区)","和咖啡农业科技展览中心","塘沽森林公园","中国农业大学(烟台校区)","花果山风景区"};
         Essay essay = new Essay();
-        essay.setUserId(2);
+        essay.setUserId(new Random().nextInt(11)+1);
         essay.setCategoryId(1);
-        essay.setTitle("标题");
+        essay.setCity(cities[rand]);
+        essay.setTitle(cities[rand]+","+titles[new Random().nextInt(titles.length-2)+1]);
         essay.setSubTitle("子标题");
-        essay.setContent("内容");
-        essay.setSubContent("子内容");
-        for (String s:positions) {
-            essay.setPosition(s);
-            iEssayService.add(essay);
-        }
+        essay.setContent("内容"+cities[rand]);
+        essay.setSubContent("子内容"+cities[rand]);
+        essay.setPosition(cities[rand]+"市景点");
+        iEssayService.add(essay);
         return ServerResponse.createBySuccessMessage("OK");
     }
 

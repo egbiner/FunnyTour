@@ -67,7 +67,7 @@
      SELECT city cityName,position name,COUNT(*) value FROM tmt_essay where city = #{city} GROUP BY city,position ORDER BY VALUE DESC limit #{limit}
   </select>
   <select id="selectAttractionDataOrderByCount" resultType="cn.imhtb.vo.AttractionVo">
-    SELECT position name,COUNT(*) VALUE FROM tmt_essay GROUP BY position ORDER BY VALUE DESC
+    SELECT city cityName,position name,COUNT(*) VALUE FROM tmt_essay GROUP BY position,city ORDER BY VALUE DESC
     <if test="limit != null">
       limit = #{limit}
     </if>

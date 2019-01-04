@@ -16,7 +16,7 @@
 <div class="fly-header layui-bg-black" th:fragment="fra_topbar">
   <div class="layui-container">
     <a class="fly-logo" href="/">
-      <img src="../res/images/logo.png" th:src="@{/res/images/logo3.png}" alt="layui">
+      <img style="width: 160px;height: 40px;" src="../res/images/logo.png" th:src="@{/res/images/logo6.png}" alt="layui">
     </a>
     <ul class="layui-nav fly-nav layui-hide-xs">
       <li class="layui-nav-item layui-this">
@@ -54,7 +54,6 @@
           </a>
           <dl class="layui-nav-child">
             <dd><a href="user/set.html" th:href="@{/user/set}"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
-            <dd><a href="user/message.html" th:href="@{/user/message}"><i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a></dd>
             <dd><a href="user/home.html" th:href="@{/user/home}"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a></dd>
             <hr style="margin: 5px 0;">
             <dd><a href="/user/logout/" th:href="@{/user/logout}" style="text-align: center;">退出</a></dd>
@@ -89,35 +88,25 @@
           <span class="fly-mid"></span>
           <a>置顶</a>
           <span class="fly-mid"></span>
-          <!--<a href="#signin" class="layui-hide-sm layui-show-xs-block fly-right" id="LAY_goSignin" style="color: #FF5722;">去签到</a>-->
         </div>
         <ul class="fly-list">
           <li>
-            <a href="user/home.html" class="fly-avatar">
+            <a href="user/home/1" class="fly-avatar">
               <img src="http://q1.qlogo.cn/g?b=qq&nk=794409767&s=100" alt="置顶动态">
             </a>
             <h2>
-              <a class="layui-badge">置顶</a>
-              <a href="#">软件工程课设</a>
+              <a class="layui-badge">置顶简介</a>
+              <a href="#" th:href="@{/introduce}">软件工程课设旅游分析</a>
             </h2>
             <div class="fly-list-info">
               <a href="user/home/1" link>
                 <cite>tomato</cite>
                 <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                <i class="layui-badge fly-badge-vip">VIP3</i>
               </a>
-              <span>很久很久之前</span>
-              
-              <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 66</span>
-              <span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>
-              <span class="fly-list-nums"> 
-                <i class="iconfont icon-pinglun1" title="回答"></i> 66
-              </span>
+              <span>很久之前</span>
             </div>
             <div class="fly-list-badge">
               <!--
-              <span class="layui-badge layui-bg-black">置顶</span>
-              <span class="layui-badge layui-bg-red">精帖</span>
               -->
             </div>
           </li>
@@ -137,35 +126,7 @@
             <!--<a href="">按热议</a>-->
           </span>
         </div>
-
         <ul class="fly-list">
-          <!--<li>-->
-            <!--<a href="user/home.html" class="fly-avatar">-->
-              <!--<img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">-->
-            <!--</a>-->
-            <!--<h2>-->
-              <!--<a class="layui-badge">动态</a>-->
-              <!--<a href="jie/detail.html">基于 layui 的极简社区页面模版</a>-->
-            <!--</h2>-->
-            <!--<div class="fly-list-info">-->
-              <!--<a href="user/home.html" link>-->
-                <!--<cite>贤心</cite>-->
-                <!--<i class="iconfont icon-renzheng" title="认证信息：XXX"></i>-->
-                <!--<i class="layui-badge fly-badge-vip">VIP3</i>-->
-              <!--</a>-->
-              <!--<span>刚刚</span>-->
-
-              <!--<span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>-->
-              <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
-              <!--<span class="fly-list-nums">-->
-                <!--<i class="iconfont icon-pinglun1" title="回答"></i> 66-->
-              <!--</span>-->
-            <!--</div>-->
-            <!--<div class="fly-list-badge">-->
-              <!--<span class="layui-badge layui-bg-red">精帖</span>-->
-            <!--</div>-->
-          <!--</li>-->
-
           <li th:each="e:${essays}">
             <a href="user/home.html" th:href="@{'/user/home/'+${e.userId}}" class="fly-avatar">
               <img th:src="@{${e.userAvatar}}" src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" th:alt="${e.username}">
@@ -176,38 +137,27 @@
             </h2>
             <div class="fly-list-info">
               <a href="user/home.html" link>
-                <cite th:text="${e.username}">贤心</cite>
-                <!--
-                <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                <i class="layui-badge fly-badge-vip">VIP3</i>
-                -->
+                <cite th:text="${e.username}">,tomato</cite>
               </a>
               <span th:text="${#dates.format(e.createTime,'yyyy-MM-dd HH:mm')}">刚刚</span>
 
               <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> [[${e.view}]]</span>
-              <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
               <span class="fly-list-nums">
                 <i class="iconfont icon-pinglun1" title="回答"></i> [[${e.commentNum}]]
               </span>
             </div>
             <div class="fly-list-badge">
-              <!--<span class="layui-badge layui-bg-red">精帖</span>-->
             </div>
           </li>
-
         </ul>
         <div style="text-align: center">
           <div class="laypage-main">
             <a href="jie/index.html" th:href="@{/more}" class="laypage-next">更多</a>
           </div>
         </div>
-
       </div>
     </div>
     <div class="layui-col-md4">
-     
-
-
     </div>
   </div>
 </div>
@@ -224,13 +174,6 @@
 <script src="../res/layui/layui.js" th:href="@{/res/layui/layui.js}"></script>
 <script>
 layui.cache.page = '';
-layui.cache.user = {
-  username: '游客'
-  ,uid: -1
-  ,avatar: '../res/images/avatar/00.jpg'
-  ,experience: 83
-  ,sex: '男'
-};
 layui.config({
   version: "3.0.0"
   ,base: '../res/mods/' //这里实际使用时，建议改成绝对路径

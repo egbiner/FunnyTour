@@ -104,7 +104,7 @@ public class EssayOpServiceImpl implements IEssayOpService {
     public Date getLastWeek(){
         Calendar cal=Calendar.getInstance();
 //        cal.add(Calendar.DATE,-8);
-        cal.add(Calendar.DATE,-15);
+        cal.add(Calendar.DATE,-20);
         return cal.getTime();
     }
 }

@@ -9,14 +9,17 @@ $(function () {
                 dataType: 'json',
                 data: $('#essay-add-form').serialize(),
                 success: function (res) {
-                    layer.msg(res.msg);
-                    // layer.confirm(res.msg, {
-                    //     btn: ['知道了'] //按钮
-                    // }, function(){
-                    //     location.href="/index";
-                    // });
+                    if(res.status==10){
+                        layer.msg(res.msg);
+                    }else{
+                        layer.confirm(res.msg,{
+                            btn : ['知道了']
+                         }, function(){
+                             location.href="/";
+                         });
+                    }
                 },
-                error:function (res) {
+                error:function(res) {
 
                 }
             });

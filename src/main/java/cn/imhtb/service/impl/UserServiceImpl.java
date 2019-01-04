@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Random;
 
 @Service("iUserService")
 public class UserServiceImpl implements IUserService {
@@ -27,10 +28,13 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public ServerResponse<String> register(User user) {
+        int rand = new Random().nextInt(1000);
+        String avatar = "http://q1.qlogo.cn/g?b=qq&nk=49365"+rand+"&s=100";
         user.setCreateTime(new Date());
         user.setRole(Const.Role.ROLE_CUSTOMER);
         user.setUpdateTime(new Date());
         user.setLevel(1);
+        user.setAvatar(avatar);
         //TODO CheckValid
         int count = userMapper.insert(user);
         if (count>0){

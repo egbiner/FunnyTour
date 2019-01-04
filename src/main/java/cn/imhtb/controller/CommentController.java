@@ -1,6 +1,7 @@
 package cn.imhtb.controller;
 
 import cn.imhtb.common.Const;
+import cn.imhtb.common.ResponseCode;
 import cn.imhtb.common.ServerResponse;
 import cn.imhtb.pojo.Comment;
 import cn.imhtb.pojo.EssayOp;
@@ -29,7 +30,7 @@ public class CommentController {
         iEssayOpService.add(new EssayOp(comment.getEssayId(),Const.EssayOp.ESSAY_COMMENT));
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user==null){
-            return ServerResponse.createByErrorMessage("请登录后重新尝试");
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"请登录后重新尝试");
         }
         comment.setUserId(user.getId());
         comment.setUpdateTime(new Date());
