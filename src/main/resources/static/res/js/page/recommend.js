@@ -38,7 +38,6 @@ $.get('/hotCities').done(function(res){
         yAxis: {
             type: 'category',
             data: res.data.category
-            // data: ['巴西','印尼','美国','印度','中国','桂林']
         },
         series: [
             {
@@ -412,21 +411,6 @@ $.get('/hotCitiesAttractionList').done(function(res) {
                 }
             },
             data: res.data
-            //     [{
-            //     name: '象鼻山',
-            //     value: 10000,
-            //     textStyle: {
-            //         normal: {
-            //             color: 'black'
-            //         },
-            //         emphasis: {
-            //             color: 'red'
-            //         }
-            //     }
-            // }, {
-            //     name: '桂林',
-            //     value: 6181
-            // }]
         }]
     });
 });

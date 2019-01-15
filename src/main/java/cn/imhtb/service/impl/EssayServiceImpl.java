@@ -215,7 +215,6 @@ public class EssayServiceImpl implements IEssayService {
         if (city==null){
             List<CityVo> cityVoList = essayMapper.selectTopHotCities(limit);
             cityName = cityVoList.get(0).getName();
-            //TODO
         }
         List<AttractionVo> attractionVoList = essayMapper.selectTopHotCitiesAttractionData(cityName,limit);
         return ServerResponse.createBySuccess("热门景点查询成功",attractionVoList);

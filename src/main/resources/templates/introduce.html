@@ -1,0 +1,92 @@
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>简介</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script th:src="@{/res/js/jquery-3.3.1.js}"></script>
+    <link rel="stylesheet" href="../../res/layui/css/layui.css" th:href="@{/res/layui/css/layui.css}">
+    <link rel="stylesheet" href="../../res/css/global.css" th:href="@{/res/css/global.css}">
+</head>
+<body>
+
+<div th:replace="index::fra_topbar"></div>
+
+<div th:replace="index::fra_nav(index)"></div>
+
+<div class="layui-container">
+    <div class="layui-row layui-col-space15" style="width: 1000px;margin: 0 auto;">
+        <div class="layui-col-md15 content detail">
+            <div class="fly-panel detail-box">
+                <h1>旅游分析网站简介</h1>
+                <div class="fly-detail-info">
+                    <span class="layui-badge layui-bg-green fly-detail-column">本站简介</span>
+                    <span class="layui-badge layui-bg-red">精帖</span>
+                    <div class="fly-admin-box" data-id="123">
+                    </div>
+                    <span class="fly-list-nums">
+          </span>
+                </div>
+                <div class="detail-about">
+                    <a class="fly-avatar" href="/user/home" >
+                        <img src="http://q1.qlogo.cn/g?b=qq&nk=794409767&s=100" alt="贤心">
+                    </a>
+                    <div class="fly-detail-user">
+                        <a href="/user/home" class="fly-link">
+                            <cite>tomato</cite>
+                            <i class="iconfont icon-renzheng" title="认证"></i>
+                            <i class="layui-badge fly-badge-vip">VIP</i>
+                        </a>
+                        <span >2019-01-01</span>
+                    </div>
+                    <div class="detail-hits" id="LAY_jieAdmin" data-id="123">
+                        <span style="padding-right: 10px; color: #FF7200">城市：桂林</span>
+                        <span style="padding-right: 10px; color: #008e61">详细位置：桂电</span>
+                    </div>
+                </div>
+                <div class="detail-body photos" >
+                    <p>
+                            随着移动互联网的蓬勃发展，旅游信息传播范围小的问题已经改变了，中国在线旅游市场得到了高速发展。线下转向线上成为所有行业的发展趋势，传统旅行项目想要生存，必须要跟上时代的步伐，顺势而变。因此开发开发一个符合大众的旅游网站是很匹配当前旅游发展形势的，设计该旅游网站必须具备时效性，信息准确无误、便民利民、保护用户隐私、网站稳定运行，这些都是业务上的必备需求。
+                        各地旅游网站如雨后春笋般出现，并在近几年呈现爆炸式的发展。行业的火速发展带来巨大的经济效益，但随之而来也产生了一些问题，想要留住用户、吸引更多的用户，就必须了解用户。对于用户来说：旅游网站必须有丰富的资源、准确的信息、美观的界面、通俗易懂的旅游分析等，所以满足用户的需求是设计本项目网站的主要过程实现。
+                    </p>
+                    <p>更新日志：</p>
+                    <pre>
+使用了最近流行的SpringBoot+Thymeleaf框架以及持久层Mybatis框架，其中SpringBoot和Thymeleaf是我第一次使用，所以在开发本软件项目中出现了一些不可避免的问题。
+                      </pre>
+
+                </div>
+                <div>
+                    <hr>
+                </div>
+            </div>
+
+            <div class="fly-panel detail-box" id="flyReply">
+                <fieldset class="layui-elem-field layui-field-title" style="text-align: center;">
+                    <legend>欢迎</legend>
+                </fieldset>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="fly-footer" th:replace="index::fra_footbar"></div>
+<script src="../../res/layui/layui.js" th:href="@{/res/layui/layui.js}"></script>
+<script>
+    layui.cache.page = 'jie';
+    layui.config({
+        version: "3.0.0"
+        ,base: '../../res/mods/'
+    }).extend({
+        fly: 'index'
+    }).use(['fly', 'face'], function(){
+        var $ = layui.$
+            ,fly = layui.fly;
+    });
+</script>
+
+</body>
+</html>
