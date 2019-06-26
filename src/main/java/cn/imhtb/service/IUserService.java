@@ -12,4 +12,8 @@ public interface IUserService {
     User getInfoById(Integer uid);
 
     ServerResponse<User> update(User user);
+
+    User findByUsername(String s);
+
+    String findRoleByUsername(String username);
 }

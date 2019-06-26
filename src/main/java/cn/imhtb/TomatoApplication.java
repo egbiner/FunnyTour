@@ -3,6 +3,9 @@ package cn.imhtb;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * @author PinTeh
+ */
 @SpringBootApplication
 public class TomatoApplication {
 

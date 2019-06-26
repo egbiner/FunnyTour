@@ -229,5 +229,10 @@ public class EssayServiceImpl implements IEssayService {
         return ServerResponse.createBySuccess("获取景点及总数成功！",attractionVoList);
     }
 
+    @Override
+    public List<Essay> selectCityByUserIdWithSelective(int userId, int count) {
+        return essayMapper.selectCityByUserIdWithSelective(userId,count);
+    }
+
 
 }

@@ -14,9 +14,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -24,6 +22,9 @@ import java.util.List;
 
 
 
+/**
+ * @author PinTeh
+ */
 @Controller
 public class IndexController {
 
@@ -35,19 +36,66 @@ public class IndexController {
     @RequestMapping("/")
     public String index(Model model)
     {
-//        List<EssayVo> essayVos = iEssayService.selectAllVo();
         List<EssayVo> essayVos = iEssayService.selectAllVoWithLimit(10);
         model.addAttribute("essays",essayVos);
         return "index";
     }
 
     @RequestMapping("/point")
-    public String to_point(){
+    public String toPoint(){
         return "point";
     }
 
+    @RequestMapping("/introduce")
+    public String toIntroduce(){
+        return "introduce";
+    }
+
+    @GetMapping("/route")
+    public String route(){
+        return "route";
+    }
+
+    @RequestMapping("/login")
+    public String toLogin(){
+        return "user/login";
+    }
+
+    @RequestMapping("/register")
+    public String toRegister(){
+        return "user/register";
+    }
+
+    @RequestMapping("/essay")
+    public String toEssayAdd(){
+        return "jie/add";
+    }
+
+    @RequestMapping("/user/set")
+    public String toSet(Model model,HttpSession session)
+    {
+        User user  = (User) session.getAttribute(Const.CURRENT_USER);
+        model.addAttribute("user",user);
+        return "user/set";
+    }
+
+    @RequestMapping("/user/message")
+    public String toMessage(){
+        return "user/message";
+    }
+
+    @RequestMapping("/user/index")
+    public String toUserIndex(HttpSession session,Model model){
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        List<Essay> essays = iEssayService.selectByUserIdWithSelective(user.getId(),null);
+        int essaysCount = iEssayService.selectCountByUserId(user.getId());
+        model.addAttribute("essaysCount",essaysCount);
+        model.addAttribute("essays",essays);
+        return "user/index";
+    }
+
     @RequestMapping("/more")
-    public String to_more(@RequestParam(value = "page",defaultValue = "1") Integer page,@RequestParam(value = "limit",defaultValue = "10") Integer limit, Model model){
+    public String toMore(@RequestParam(value = "page",defaultValue = "1") Integer page,@RequestParam(value = "limit",defaultValue = "10") Integer limit, Model model){
         PageHelper.startPage(page,limit);
         List<EssayVo> list = iEssayService.selectAllVoWithLimit(null);
         //TODO 优化
@@ -58,47 +106,8 @@ public class IndexController {
         return "jie/index";
     }
 
-    @RequestMapping("/login")
-    public String to_login(){
-        return "user/login";
-    }
-
-    @RequestMapping("/register")
-    public String to_register(){
-        return "user/register";
-    }
-
-    @RequestMapping("/user/set")
-    public String to_set(Model model,HttpSession session)
-    {
-        User user  = (User) session.getAttribute(Const.CURRENT_USER);
-        model.addAttribute("user",user);
-        return "user/set";
-    }
-
-    @RequestMapping("/user/message")
-    public String to_message(){
-        return "user/message";
-    }
-
-    @RequestMapping("/user/index")
-    public String to_user_index(HttpSession session,Model model){
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
-        List<Essay> essays = iEssayService.selectByUserIdWithSelective(user.getId(),null);
-        int essaysCount = iEssayService.selectCountByUserId(user.getId());
-        model.addAttribute("essaysCount",essaysCount);
-        model.addAttribute("essays",essays);
-        return "user/index";
-    }
-
-    @RequestMapping("/essay")
-    public String to_essay_add(){
-        return "jie/add";
-    }
-
     /**
      * 热力图数据
-     * @return
      */
     @RequestMapping("/points")
     @ResponseBody
@@ -114,10 +123,23 @@ public class IndexController {
         return baiduLocations.toArray();
     }
 
-    @RequestMapping("/introduce")
-    public String to_introduce(){
-        return "introduce";
-    }
+    @RequestMapping("/tour")
+    @ResponseBody
+    public List<BaiduLocation> tour(){
+        int count = 5;
+        //获取最近五篇游记
+        List<BaiduLocation> ret = new ArrayList<>();
+        //需要去除城市名相同的
+        //List<Essay> essays = iEssayService.selectByUserIdWithSelective(1,count);
+        List<Essay> essays = iEssayService.selectCityByUserIdWithSelective(1,count);
 
+        for (Essay essay : essays) {
+            BaiduLocation baiduLocation = BaiduMapPointUtils.getBaiduLocation(Const.BAIDU_GET_POINT_URL_PREFIX+essay.getCity()+Const.BAIDU_GET_POINT_URL_SUFFIX+Const.BAIDU_AK);
+            int i = essays.indexOf(essay);
+            baiduLocation.setCount(count-i);
+            ret.add(baiduLocation);
+        }
+        return ret;
+    }
 
 }

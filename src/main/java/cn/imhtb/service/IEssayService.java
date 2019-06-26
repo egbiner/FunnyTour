@@ -43,4 +43,6 @@ public interface IEssayService {
     ServerResponse<List<AttractionVo>> getTopHotCitiesAttractionData(String city,Integer limit);
 
     ServerResponse<List<AttractionVo>> getAttractionDataOrderByCount(Integer limit);
+
+    List<Essay> selectCityByUserIdWithSelective(int i, int count);
 }

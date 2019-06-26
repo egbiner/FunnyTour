@@ -11,6 +11,13 @@ import java.util.List;
 
 @Mapper
 public interface EssayMapper {
+
+    int vote(Integer id);
+
+    List<Essay> selectAll();
+
+    int updateViewByEssayId(Integer essayId);
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(Essay record);
@@ -23,10 +30,6 @@ public interface EssayMapper {
 
     int updateByPrimaryKey(Essay record);
 
-    List<Essay> selectAll();
-
-    List<Essay> selectByUserIdWithSelective(@Param("userId") Integer userId,@Param("count") Integer count);
-
     int selectCountByUserId(Integer userId);
 
     List<CityVo> selectTopHotCities(int limit);
@@ -35,13 +38,15 @@ public interface EssayMapper {
 
     List<HotEssayVo> selectHotViewsEssay(int limit);
 
-    int vote(Integer id);
-
-    int updateViewByEssayId(Integer essayId);
-
     List<Essay> selectWithLimit(@Param("limit") Integer limit);
+
+    List<AttractionVo> selectAttractionDataOrderByCount(@Param("limit") Integer limit);
 
     List<AttractionVo> selectTopHotCitiesAttractionData(@Param("city") String cityName,@Param("limit") Integer limit);
 
-    List<AttractionVo> selectAttractionDataOrderByCount(@Param("limit") Integer limit);
+    List<Essay> selectByUserIdWithSelective(@Param("userId") Integer userId,@Param("count") Integer count);
+
+    List<Essay> selectCityByUserIdWithSelective(@Param("userId") Integer userId,@Param("count") Integer count);
+
+
 }

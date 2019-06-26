@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=pdoFDkpZ8GSHk6M7Usv9QMRGXGic8z4l"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/CurveLine/1.5/src/CurveLine.min.js"></script>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../res/layui/css/layui.css" th:href="@{/res/layui/css/layui.css}">
+    <link rel="stylesheet" href="../../res/css/global.css" th:href="@{/res/css/global.css}">
+
+    <title>地图跟踪</title>
+    <style type="text/css">
+        ul,li{list-style: none;margin:0;padding:0;float:left;}
+        html{height:100%}
+        body{height:100%;margin:0px;padding:0px;font-family:"微软雅黑";}
+        #container{height:700px;width:100%}
+        #r-result{width:100%;}
+    </style>
+</head>
+<body>
+<div th:replace="index::fra_topbar"></div>
+<div id="container"></div>
+<!--<div id="r-result">-->
+    <!--<input type="button"  onclick="openHeatmap();" value="显示热力图"/><input type="button"  onclick="closeHeatmap();" value="关闭热力图"/><input type="button"  onclick="setGradient();" value="测试"/>-->
+<!--</div>-->
+<!--<div>-->
+    <!--<a href="http://api.map.baidu.com/geocoder/v2/?address=桂林电子科技大学&output=json&ak=pdoFDkpZ8GSHk6M7Usv9QMRGXGic8z4l">发送get</a>-->
+<!--</div>-->
+</body>
+</html>
+<script type="text/javascript">
+    var points = new Array();
+    var map = new BMap.Map("container");
+    var center = new BMap.Point(113.42232, 31.317765);
+    map.centerAndZoom(center, 5);
+    map.enableScrollWheelZoom();
+
+    //获取最近的5点
+    $(function () {
+        $.ajax({
+            type: "GET",
+            url: '/tour',
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                for(var i in data){
+                    // 创建点
+                    var point = new BMap.Point(data[i].lng,data[i].lat);
+                    //增加点
+                    points.push(point);
+                    //标点
+                    var marker = new BMap.Marker(point);
+                    var label = new BMap.Label(data[i].count,{offset:new BMap.Size(20,-10)});
+                    marker.setLabel(label);
+                    //跳动的动画
+                    marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+                    map.addOverlay(marker);
+                }
+                addCurveLine();
+            },
+            error: function () {
+                alert("数据获取失败")
+            }
+        });
+    });
+
+    // var beijingPosition=new BMap.Point(116.432045,39.910683),
+    //     hangzhouPosition=new BMap.Point(120.129721,30.314429),
+    //     taiwanPosition=new BMap.Point(121.491121,25.127053);
+    // //var points = [beijingPosition,hangzhouPosition, taiwanPosition,{"lng":116.418261,"lat":39.921984}];
+    // var points = [new BMap.Point(116.432045,39.910683),new BMap.Point(120.129721,30.314429), new BMap.Point(121.491121,25.127053),new BMap.Point(116.432045,25.127053)];
+    console.log(points);
+    function addCurveLine(){
+        //创建弧线对象
+        var curve = new BMapLib.CurveLine(points, {strokeColor:"blue", strokeWeight:3, strokeOpacity:0.5});
+        //添加到地图中
+        map.addOverlay(curve);
+        //开启编辑功能
+        //curve.enableEditing();
+
+    }
+
+    // heatmapOverlay = new BMapLib.HeatmapOverlay({"radius":20});
+    // map.addOverlay(heatmapOverlay);
+    // heatmapOverlay.setDataSet({data:points,max:100});
+
+    // $(function () {
+    //     $.ajax({
+    //         type: "POST",
+    //         url: '/points',
+    //         dataType: "json",
+    //         success: function (data) {
+    //             points = data;
+    //             openHeatmap();
+    //         },
+    //         error: function () {
+    //             alert("数据获取失败")
+    //         }
+    //     });
+    // });
+
+    //是否显示热力图
+    // function openHeatmap(){
+    //     heatmapOverlay.setDataSet({data:points,max:100});
+    //     heatmapOverlay.show();
+    // }
+    //
+    // function closeHeatmap(){
+    //     heatmapOverlay.hide();
+    // }
+    //
+    // closeHeatmap();
+    //
+    // function setGradient(){
+    //     var gradient = {};
+    //     var colors = document.querySelectorAll("input[type='color']");
+    //     colors = [].slice.call(colors,0);
+    //     colors.forEach(function(ele){
+    //         gradient[ele.getAttribute("data-key")] = ele.value;
+    //     });
+    //     heatmapOverlay.setOptions({"gradient":gradient});
+    // }
+    //
+</script>

@@ -9,14 +9,14 @@ import cn.imhtb.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+/**
+ * @author PinTeh
+ */
 @Controller
 @RequestMapping("/user/")
 public class UserController {
@@ -26,7 +26,7 @@ public class UserController {
     IEssayService iEssayService;
 
     @RequestMapping("home")
-    public String to_home(HttpSession session,Model model){
+    public String toHome(HttpSession session,Model model){
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user==null){
             return "redirect:/login";
@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @RequestMapping("home/{uid}")
-    public String to_user_home(@PathVariable("uid") Integer uid, Model model){
+    public String toUserHome(@PathVariable("uid") Integer uid, Model model){
         List<Essay> essays = iEssayService.selectByUserIdWithSelective(uid,7);
         User user = iUserService.getInfoById(uid);
         model.addAttribute("user",user);
@@ -46,7 +46,7 @@ public class UserController {
         return "user/home";
     }
 
-    @RequestMapping("login")
+    @PostMapping("login")
     @ResponseBody
     public ServerResponse<User> login(String username, String password,HttpSession session){
         ServerResponse<User> serverResponse = iUserService.login(username, password);

@@ -62,4 +62,14 @@ public class UserServiceImpl implements IUserService {
             return ServerResponse.createByErrorMessage("更新失败");
         }
     }
+
+    @Override
+    public User findByUsername(String s) {
+        return userMapper.selectByUsername(s);
+    }
+
+    @Override
+    public String findRoleByUsername(String username) {
+        return userMapper.selectRoleByUsername(username);
+    }
 }

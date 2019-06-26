@@ -69,7 +69,7 @@ layui.use('layer', function(){
     $("#login-btn").click(function () {
         $.ajax({
             url:'/user/login',
-            type:'post',
+            type:'POST',
             data:$("#login_form").serialize(),
             dataType:'json',
             success:function (res) {

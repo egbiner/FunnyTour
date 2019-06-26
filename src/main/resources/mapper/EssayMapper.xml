@@ -72,7 +72,10 @@
       limit = #{limit}
     </if>
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectCityByUserIdWithSelective" resultType="cn.imhtb.pojo.Essay">
+      SELECT city from (SELECT  DISTINCT city,id from tmt_essay where user_id = #{userId} ORDER BY id desc ) as a GROUP BY city limit #{count}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tmt_essay
     where id = #{id,jdbcType=INTEGER}
   </delete>
